@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/expensesSummaryFragment">
+
+    <fragment
+        android:id="@+id/expensesSummaryFragment"
+        android:name="com.example.moneyfypro.ui.SummaryFragment"
+        android:label="@string/expenses_summary"
+        tools:layout="@layout/fragment_summary"/>
+    <fragment
+        android:id="@+id/expensesHistoryFragment"
+        android:name="com.example.moneyfypro.ui.HistoryFragment"
+        android:label="@string/expenses_history"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/expensesLineChartFragment"
+        android:name="com.example.moneyfypro.ui.ChartFragment"
+        android:label="@string/expenses_line_chart"
+        tools:layout="@layout/fragment_chart" />
+    <fragment
+        android:id="@+id/addExpensesFragment"
+        android:name="com.example.moneyfypro.ui.AddExpensesFragment"
+        android:label="New Expenses"
+        tools:layout="@layout/fragment_add_expenses" />
+    <dialog
+        android:id="@+id/categorySettingFragment"
+        android:name="com.example.moneyfypro.ui.setting.CategorySettingFragment"
+        android:label="CategorySettingFragment" />
+</navigation>

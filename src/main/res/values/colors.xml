@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#B22222</color>
+
+    // My color
+    <color name="light_pink">#FFEBFF</color>
+    <color name="pink">#FFB8D1</color>
+    <color name="brown_pink">#E4B4C2</color>
+    <color name="grey_pink">#E7CEE3</color>
+    <color name="dark_grey_pink">#B59DB1</color>
+    <color name="grey">#E0E1E9</color>
+    <color name="green_white">#DDFDFE</color>
+    <color name="dark_green_white">#ABCACB</color>
+    <color name="pale_pink">#F1E4F3</color>
+    <color name="fairy_tale">#EAC5D8</color>
+    <color name="background_color">#FBF7F4</color>
+    <color name="coral_pink">#E8998D</color>
+    <color name="pale_dogwood">#EED2CC</color>
+    <color name="dark_dogwood">#BBA19B</color>
+    <color name="apple_green">#7FB800</color>
+    <color name="blush">#D34F73</color>
+    
+    // Palette color 18 colors
+    <array name="palette_colors">
+        <item name="palette_maroon">#800000</item>
+        <item name="palette_brown">#9A6324</item>
+        <item name="palette_olive">#808000</item>
+        <item name="palette_teal">#469990</item>
+        <item name="palette_red">#e6194B</item>
+        <item name="palette_orange">#f58631</item>
+        <item name="palette_yellow">#ffe119</item>
+        <item name="palette_lime">#bfef45</item>
+        <item name="palette_green">#3cb44b</item>
+        <item name="palette_cyan">#42d4f4</item>
+        <item name="palette_blue">#4363db</item>
+        <item name="palette_purple">#911eb4</item>
+        <item name="palette_magenta">#f032e6</item>
+        <item name="palette_grey">#a9a9a9</item>
+        <item name="palette_pink">#fabed4</item>
+        <item name="palette_beige">#fffac8</item>
+        <item name="palette_mint">#aaffc3</item>
+        <item name="palette_lavender">#dcbeef</item>
+    </array>
+
+</resources>

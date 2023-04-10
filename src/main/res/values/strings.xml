@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MoneyfyPro</string>
+    <string name="expenses_summary">Summary</string>
+    <string name="expenses_history">History</string>
+    <string name="expenses_line_chart">Line Chart</string>
+    <string name="create">Create new expenses</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="drawer">Drawer</string>
+    <string name="close_Drawer">Close</string>
+
+    <string-array name="category_list">
+        <item>Food</item>
+        <item>Transportation</item>
+        <item>Housing</item>
+        <item>Personal Care</item>
+        <item>Entertainment</item>
+        <item>Health and Fitness</item>
+        <item>Shopping</item>
+        <item>Travel</item>
+        <item>Gift and Donation</item>
+        <item>Utilities</item>
+        <item>Self-Development</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/filters_dropdown"
+        android:icon="@drawable/ic_filters"
+        android:title="Filters"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/search_filter_menu_item"
+                android:title="Search"/>
+            <item
+                android:id="@+id/date_filter_menu_item"
+                android:title="Date Filter" />
+            <item
+                android:id="@+id/category_filter_menu_item"
+                android:title="Category Filter" />
+        </menu>
+    </item>
+
+
+
+
+</menu>

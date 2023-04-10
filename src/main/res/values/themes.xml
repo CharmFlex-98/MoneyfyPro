@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MoneyfyPro" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/coral_pink</item>
+        <item name="colorPrimaryVariant">@color/light_pink</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/green_white</item>
+        <item name="colorSecondaryVariant">@color/dark_green_white</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Text color. -->
+<!--        <item name="android:textColorPrimary">@color/black</item>-->
+<!--        <item name="android:textColorSecondary">@color/black</item>-->
+<!--        <item name="android:textColorHint">@color/black</item>-->
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+        <!-- Customize your theme here. -->
+<!--        <item name="colorShadowDark">@color/black</item>-->
+<!--        <item name="colorShadowLight">@color/white</item>-->
+    </style>
+
+    <style name="FragmentStyle" parent="Theme.MoneyfyPro">
+        <item name="android:background">@color/background_color</item>
+    </style>
+</resources>

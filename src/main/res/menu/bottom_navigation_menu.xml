@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/expensesSummaryFragment"
+        android:title="@string/expenses_summary"
+        android:icon="@drawable/ic_expenses_pie_chart">
+    </item>
+
+    <item
+        android:id="@+id/expensesHistoryFragment"
+        android:title="@string/expenses_history"
+        android:icon="@drawable/ic_expenses_history">
+    </item>
+
+    <item
+        android:id="@+id/expensesLineChartFragment"
+        android:title="@string/expenses_line_chart"
+        android:icon="@drawable/expenses_line_chart">
+    </item>
+
+</menu>

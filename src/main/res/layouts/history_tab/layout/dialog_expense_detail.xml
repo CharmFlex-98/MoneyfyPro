@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/FragmentStyle"
+    android:elevation="10dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/detail_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/brown_pink"
+        app:title="Detail"
+        app:titleCentered="true" />
+
+    <ImageButton
+        android:id="@+id/close_dialog_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/detail_bar"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/red"
+        android:contentDescription="Close Dialog"
+        android:src="@drawable/ic_close_dialog" />
+
+    <TableLayout
+
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detail_bar" >
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/category_title"
+                style="@style/detail_dialog_title_style"
+                android:text="Category" />
+
+            <TextView
+                android:id="@+id/category_content"
+                style="@style/detail_dialog_content_style"
+                tools:hint="Content" />
+        </TableRow>
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/amount_title"
+                style="@style/detail_dialog_title_style"
+                android:text="Amount" />
+
+            <TextView
+                android:id="@+id/amount_content"
+                style="@style/detail_dialog_content_style"
+                android:hint="Content" />
+        </TableRow>
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/description_title"
+                style="@style/detail_dialog_title_style"
+                android:text="Description" />
+
+            <TextView
+                android:id="@+id/description_content"
+                style="@style/detail_dialog_content_style"
+                tools:hint="Content yuan ai is so cio3rfeihfeirfhi  wefgewuf  weudwui wweu weufywuf fyuewf uwefui wfu wiuef ifye wuefyuiwif wuefwui fufy uwf fy" />
+        </TableRow>
+
+        <TableRow
+            android:gravity="center_vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/date_title"
+                style="@style/detail_dialog_title_style"
+                android:text="Date" />
+
+            <TextView
+                android:id="@+id/date_content"
+                style="@style/detail_dialog_content_style"
+                tools:hint="Content" />
+        </TableRow>
+
+    </TableLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/delete_expense_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableRight="@drawable/ic_delete"
+            android:layout_weight="1"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/edit_expense_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_edit"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Edit" />
+
+    </LinearLayout>
+</RelativeLayout>
+
