@@ -25,7 +25,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:backgroundTint="@color/red"
-        android:contentDescription="Close Dialog"
         android:src="@drawable/ic_close_dialog" />
 
     <TableLayout
@@ -42,7 +41,7 @@
             <TextView
                 android:id="@+id/category_title"
                 style="@style/detail_dialog_title_style"
-                android:text="Category" />
+                android:text="@string/category_text" />
 
             <TextView
                 android:id="@+id/category_content"
@@ -57,12 +56,12 @@
             <TextView
                 android:id="@+id/amount_title"
                 style="@style/detail_dialog_title_style"
-                android:text="Amount" />
+                android:text="@string/amount_text" />
 
             <TextView
                 android:id="@+id/amount_content"
                 style="@style/detail_dialog_content_style"
-                android:hint="Content" />
+                tools:hint="Content" />
         </TableRow>
 
         <TableRow
@@ -72,12 +71,12 @@
             <TextView
                 android:id="@+id/description_title"
                 style="@style/detail_dialog_title_style"
-                android:text="Description" />
+                android:text="@string/description_text" />
 
             <TextView
                 android:id="@+id/description_content"
                 style="@style/detail_dialog_content_style"
-                tools:hint="Content yuan ai is so cio3rfeihfeirfhi  wefgewuf  weudwui wweu weufywuf fyuewf uwefui wfu wiuef ifye wuefyuiwif wuefwui fufy uwf fy" />
+                tools:hint="testing some random test here so that it fills all the space here so that I can know how much it can content" />
         </TableRow>
 
         <TableRow
@@ -87,7 +86,7 @@
             <TextView
                 android:id="@+id/date_title"
                 style="@style/detail_dialog_title_style"
-                android:text="Date" />
+                android:text="@string/date_text" />
 
             <TextView
                 android:id="@+id/date_content"
@@ -110,18 +109,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:drawableRight="@drawable/ic_delete"
+            android:drawableEnd="@drawable/ic_delete"
             android:layout_weight="1"
-            android:text="Delete" />
+            android:text="@string/delete_text" />
 
         <Button
             android:id="@+id/edit_expense_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_edit"
+            android:drawableEnd="@drawable/ic_edit"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Edit" />
+            android:text="@string/edit_text" />
 
     </LinearLayout>
 </RelativeLayout>

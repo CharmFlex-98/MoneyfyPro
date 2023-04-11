@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/category_setting_navigator"
-        android:title="Setting"
+        android:title="@string/setting_menu"
         />
     <item
         android:id="@+id/currency_setting_navigator"
-        android:title="Currency" />
+        android:title="@string/currency_menu" />
 </menu>

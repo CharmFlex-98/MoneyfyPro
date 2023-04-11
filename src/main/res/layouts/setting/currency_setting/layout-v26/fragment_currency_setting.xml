@@ -41,7 +41,7 @@
             android:layout_weight="0.25"
             android:text="@string/change_text"
             android:maxLines="1"
-            android:textSize="11sp" />
+            android:autoSizeTextType="uniform" />
     </LinearLayout>
 
 

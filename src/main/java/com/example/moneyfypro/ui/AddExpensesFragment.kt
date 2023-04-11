@@ -90,7 +90,7 @@ class AddExpensesFragment() : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            amountField.hint = "Amount  (${settingViewModel.saveCurrency.value})"
+            amountField.hint = "Amount  (${settingViewModel.saveCurrency.value?.currencyCode ?: ""})"
             // load save instance
             categoryField.setText(savedInstanceState?.getString(categoryField.id.toString()))
 

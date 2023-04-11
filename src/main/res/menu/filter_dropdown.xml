@@ -4,18 +4,18 @@
     <item
         android:id="@+id/filters_dropdown"
         android:icon="@drawable/ic_filters"
-        android:title="Filters"
+        android:title="@string/filters_text"
         app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/search_filter_menu_item"
-                android:title="Search"/>
+                android:title="@string/search_hint"/>
             <item
                 android:id="@+id/date_filter_menu_item"
-                android:title="Date Filter" />
+                android:title="@string/date_text" />
             <item
                 android:id="@+id/category_filter_menu_item"
-                android:title="Category Filter" />
+                android:title="@string/category_text" />
         </menu>
     </item>
 

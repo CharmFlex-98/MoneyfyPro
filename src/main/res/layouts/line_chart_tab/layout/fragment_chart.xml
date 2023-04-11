@@ -24,7 +24,7 @@
                 <TextView
                     android:id="@+id/earning_text"
                     android:layout_height="wrap_content"
-                    android:text="Earn"
+                    android:text="@string/earning_text"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:padding="5dp"
@@ -36,14 +36,14 @@
                     android:id="@+id/earning_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="value"
+                    tools:text="value"
                     android:layout_gravity="center_vertical" />
             </TableRow>
             <TableRow>
                 <TextView
                     android:id="@+id/spending_text"
                     android:layout_height="wrap_content"
-                    android:text="Spend"
+                    android:text="@string/spending_text"
                     android:textStyle="bold"
                     android:padding="5dp"
                     android:layout_margin="5dp"
@@ -54,7 +54,7 @@
                     android:id="@+id/spending_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="value"
+                    tools:text="value"
                     android:layout_gravity="center_vertical" />
             </TableRow>
         </TableLayout>
