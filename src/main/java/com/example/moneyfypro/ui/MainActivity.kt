@@ -13,10 +13,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -33,6 +35,7 @@ import com.example.moneyfypro.ui.custom_view.DraggableFloatingActionButton
 import com.example.moneyfypro.ui.setting.*
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
     private val filterViewModel: FilterViewModel by viewModels()
     private val expensesViewModel: ExpensesViewModel by viewModels()
     private val settingViewModel: SettingViewModel by viewModels()
+    private var exitSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +93,14 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
             searchFilter.apply {
                 searchText.addTextChangedListener(SearchTextWatcher(this@MainActivity))
                 searchLayout.setEndIconOnClickListener {
+                    if (searchText.text.isNullOrEmpty()) {
+                        if (binding.dateFilter.root.visibility == View.GONE) {
+                            binding.searchFilter.root.visibility = View.GONE
+                            binding.dateFilter.root.visibility = View.VISIBLE
+                        }
+                        return@setEndIconOnClickListener
+                    }
+
                     searchText.text?.clear()
                 }
             }
@@ -97,7 +109,29 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
         setDrawer()
 //        configureFAB()
         setCalenderFilterListener()
+        backPressSetup()
     }
+
+
+
+    private fun backPressSetup() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (exitSnackBar != null && exitSnackBar!!.isShown) {
+                    finish()
+                    return
+                }
+
+                val snackBar = Snackbar.make(binding.root, "Press again to exit.", 1000)
+                snackBar.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+                snackBar.setBackgroundTint(ContextCompat.getColor(this@MainActivity, R.color.black))
+                snackBar.show()
+
+                exitSnackBar = snackBar
+            }
+        })
+    }
+
 
     private fun initSetting() {
         val sharedPreferences = getPreferences(Context.MODE_PRIVATE) ?: return

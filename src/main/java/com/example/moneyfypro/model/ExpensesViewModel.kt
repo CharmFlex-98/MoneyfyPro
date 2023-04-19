@@ -21,9 +21,6 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
        initExpensesView()
    }
 
-    fun getExpenses(): List<Expense> {
-        return expensesViewState.value?.expensesList ?: listOf()
-    }
 
     fun insertExpense(category: String, description: String, amount: Double, date: Date) {
         viewModelScope.launch {
@@ -36,7 +33,7 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         }
     }
 
-    fun updateExpense(id: Int, category: String, description: String, amount: Double, date: Date) {
+    fun updateExpense(id: String, category: String, description: String, amount: Double, date: Date) {
         println("in update")
         viewModelScope.launch {
             val updatedExpense = getUpdatedExpenseEntry(id, category, description, amount, date)
@@ -64,6 +61,7 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         date: Date
     ): Expense {
         return Expense(
+            Date().time.toString(),
             category = category,
             description = description,
             amount = amount,
@@ -72,7 +70,7 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
     }
 
     private fun getUpdatedExpenseEntry(
-        id: Int,
+        id: String,
         category: String,
         description: String,
         amount: Double,

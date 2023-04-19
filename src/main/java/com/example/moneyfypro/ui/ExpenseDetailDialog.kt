@@ -41,9 +41,9 @@ class ExpenseDetailDialog : DialogFragment() {
 //        dialog?.window?.setLayout(width.toInt(), height.toInt())
         binding.apply {
             val args = requireArguments()
-            val id = args.getInt(Expense.ID_KEY)
+            val id = args.getString(Expense.ID_KEY)
 
-            if (id == 0) return@apply
+            if (id.isNullOrEmpty()) return@apply
 
             expenseViewModel.expensesViewState.observe(viewLifecycleOwner) { state ->
 
@@ -68,13 +68,13 @@ class ExpenseDetailDialog : DialogFragment() {
         }
     }
 
-    private fun editExpense(expenseId: Int) {
+    private fun editExpense(expenseId: String) {
         val expense = createExpenseInstance(expenseId)
         if (expense != null) AddExpensesFragment.instance(expense)
             .show(requireActivity().supportFragmentManager, AddExpensesFragment.TAG)
     }
 
-    private fun createExpenseInstance(expenseId: Int): Expense? {
+    private fun createExpenseInstance(expenseId: String): Expense? {
         val targetExpense =
             expenseViewModel.expensesViewState.value?.expensesList?.firstOrNull { expense -> expense.id == expenseId }
                 ?: return null
@@ -93,8 +93,7 @@ class ExpenseDetailDialog : DialogFragment() {
         )
     }
 
-    private fun deleteExpense(expenseId: Int) {
-        println("trying to delete")
+    private fun deleteExpense(expenseId: String) {
         expenseViewModel.expensesViewState.value?.expensesList?.firstOrNull {
             it.id == expenseId
         }?.let {
@@ -109,7 +108,7 @@ class ExpenseDetailDialog : DialogFragment() {
         fun instance(expense: Expense): ExpenseDetailDialog {
             val dialog = ExpenseDetailDialog()
             val bundle = Bundle()
-            bundle.putInt(Expense.ID_KEY, expense.id)
+            bundle.putString(Expense.ID_KEY, expense.id)
             bundle.putString(Expense.CATEGORY_KEY, expense.category)
             bundle.putDouble(Expense.AMOUNT_KEY, expense.amount)
             bundle.putString(Expense.DESCRIPTION_KEY, expense.description)
