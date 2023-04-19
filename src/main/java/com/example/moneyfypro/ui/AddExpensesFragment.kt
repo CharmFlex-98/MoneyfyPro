@@ -23,6 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.runBlocking
 import java.util.*
+import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
 class AddExpensesFragment() : DialogFragment() {
@@ -125,7 +126,7 @@ class AddExpensesFragment() : DialogFragment() {
             descriptionField.setText(args.getString(Expense.DESCRIPTION_KEY))
             amountField.setText(
                 Expense.toAmountFormat(
-                    args.getDouble(Expense.AMOUNT_KEY),
+                    args.getDouble(Expense.AMOUNT_KEY).absoluteValue,
                     "",
                     currencyFormat = false
                 )

@@ -51,9 +51,10 @@ class HistoryFragment : Fragment() {
                 _binding.recyclerView.visibility = View.GONE
                 return@observe
             }
+            _binding.noDataText.visibility = View.GONE
+            _binding.recyclerView.visibility = View.VISIBLE
         }
-        _binding.noDataText.visibility = View.GONE
-        _binding.recyclerView.visibility = View.VISIBLE
+
         _settingViewModel.saveCurrency.observe(viewLifecycleOwner) {
             if (it is CurrencySelection.CurrencySelectionConfirmed) {
                 adapter.notifyDataSetChanged()
