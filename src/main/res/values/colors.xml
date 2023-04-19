@@ -26,6 +26,7 @@
     <color name="dark_dogwood">#BBA19B</color>
     <color name="apple_green">#7FB800</color>
     <color name="blush">#D34F73</color>
+    <color name="amaranth_purple">#A93F55</color>
     
     // Palette color 18 colors
     <array name="palette_colors">

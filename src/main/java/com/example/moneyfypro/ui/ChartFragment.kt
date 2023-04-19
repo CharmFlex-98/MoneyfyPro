@@ -62,8 +62,10 @@ class ChartFragment : Fragment() {
     private fun displayValues() {
         val currencyCode = settingViewModel.saveCurrency.value?.currencyCode ?: ""
         binding.apply {
-            earningValue.text = Expense.toAmountFormat(expensesViewModel.totalEarning(), currencyCode)
-            spendingValue.text = Expense.toAmountFormat(expensesViewModel.totalSpending(), currencyCode)
+            earningValue.text =
+                Expense.toAmountFormat(expensesViewModel.totalEarning(), currencyCode)
+            spendingValue.text =
+                Expense.toAmountFormat(expensesViewModel.totalSpending(), currencyCode)
         }
         createLineChart(currencyCode)
     }
@@ -73,6 +75,14 @@ class ChartFragment : Fragment() {
      * Create line chart
      */
     private fun createLineChart(currencyCode: String) {
+        if (!expensesViewModel.hasExpenses()) {
+            binding.noDataText.visibility = View.VISIBLE
+            binding.lineChart.visibility = View.GONE
+            return
+        }
+
+        binding.noDataText.visibility = View.GONE
+        binding.lineChart.visibility = View.VISIBLE
         val lineChart = binding.lineChart
         lineChart.apply {
             animateX(300, Easing.EaseInOutBounce)
@@ -135,7 +145,8 @@ class ChartFragment : Fragment() {
         val res = mutableMapOf<Date, Double>()
         val expensesList = expensesViewModel.expensesViewState.value?.expensesList ?: return res
 
-        for (expense in expensesList) res[expense.date] = expense.amount + (res[expense.date] ?: 0.0)
+        for (expense in expensesList) res[expense.date] =
+            expense.amount + (res[expense.date] ?: 0.0)
 
         return res
     }
@@ -157,12 +168,10 @@ class ChartFragment : Fragment() {
     }
 
 
-
-
-    private inner class ExpensesChartAxisFormatter(): IndexAxisValueFormatter() {
+    private inner class ExpensesChartAxisFormatter() : IndexAxisValueFormatter() {
 
         override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-            return  SimpleDateFormat("MMM dd", Locale.US).format(Date(value.toLong()))
+            return SimpleDateFormat("MMM dd", Locale.US).format(Date(value.toLong()))
         }
 
 

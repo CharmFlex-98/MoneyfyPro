@@ -4,6 +4,29 @@
     <string name="expenses_history">History</string>
     <string name="expenses_line_chart">Line Chart</string>
     <string name="create">Create new expenses</string>
+    <string name="category_text">Category</string>
+    <string name="description_text">Description</string>
+    <string name="amount_text">Amount</string>
+    <string name="date_text">Date</string>
+    <string name="spending_text">Spend</string>
+    <string name="earning_text">Earn</string>
+    <string name="submit_text">Submit</string>
+    <string name="message_to_user">Sync feature\ncoming soon</string>
+    <string name="search_hint">Search</string>
+    <string name="delete_text">Delete</string>
+    <string name="edit_text">Edit</string>
+    <string name="view_text">View</string>
+    <string name="new_category_text">New Category</string>
+    <string name="delete_hint">* Swipe right to delete.</string>
+    <string name="reorder_hint">* Long press to reorder list.</string>
+    <string name="change_text">Change</string>
+    <string name="setting_menu">Category Setting</string>
+    <string name="currency_menu">Currency Setting</string>
+    <string name="filters_text">Filter</string>
+    <string name="no_data_text">No Data</string>
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -23,5 +46,4 @@
         <item>Utilities</item>
         <item>Self-Development</item>
     </string-array>
-
 </resources>

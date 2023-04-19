@@ -46,14 +46,12 @@ class DraggableFloatingActionButton @JvmOverloads constructor(
                 val displayMetrics = resources.displayMetrics
                 val dpHeight = displayMetrics.heightPixels
                 val dpWidth = displayMetrics.widthPixels
-                println("get layout params $dpHeight $dpWidth")
 
                 currentViewX = currentViewX.coerceAtLeast(0f)
                 currentViewX = currentViewX.coerceAtMost((dpWidth - v.width).toFloat())
                 currentViewY = currentViewY.coerceAtLeast(0f)
                 val bottomOffset: Int = ((context as? MainActivity)?.binding?.bottomNavBar?.height ?: 0)
                 val topOffset = (context as? MainActivity)?.supportActionBar?.height ?: 0
-                println("top off set is $topOffset")
                 currentViewY = currentViewY.coerceAtMost((dpHeight - v.height - bottomOffset - topOffset).toFloat())
 
                 v.animate()

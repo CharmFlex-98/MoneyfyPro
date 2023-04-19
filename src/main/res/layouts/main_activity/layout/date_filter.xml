@@ -17,14 +17,12 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="9"
-            android:background="@drawable/date_border"
-            android:hint="From" />
+            android:background="@drawable/date_border" />
         <ImageButton
             android:id="@+id/calender_button_from"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Search"
             android:src="@drawable/ic_calender"/>
     </LinearLayout>
 
@@ -40,14 +38,12 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="9"
-            android:background="@drawable/date_border"
-            android:hint="To" />
+            android:background="@drawable/date_border" />
         <ImageButton
             android:id="@+id/calender_button_to"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Search"
             android:src="@drawable/ic_calender"/>
 
     </LinearLayout>

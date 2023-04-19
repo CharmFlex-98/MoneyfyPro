@@ -47,12 +47,19 @@ class SummaryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val pieChart = binding.pieChart
         setupPieChart(pieChart)
 
         expensesViewModel.apply {
             expensesViewState.observe(viewLifecycleOwner) {
-                println("callback from summary fragment")
+                if (!this.hasExpenses()) {
+                    binding.noDataText.visibility = View.VISIBLE
+                    binding.pieChart.visibility = View.GONE
+                    return@observe
+                }
+                binding.noDataText.visibility = View.GONE
+                binding.pieChart.visibility = View.VISIBLE
                 loadPieData(pieChart, getExpensesRatioByCategory())
             }
         }
@@ -89,8 +96,6 @@ class SummaryFragment : Fragment() {
      */
     private fun loadPieData(chart: PieChart, expensesRatioByCategory: Map<String, Double>) {
         val data = mutableListOf<PieEntry>()
-        println("should start loading")
-        println(expensesRatioByCategory)
         expensesRatioByCategory.forEach {
             data.add(PieEntry(it.value.toFloat(), it.key))
         }

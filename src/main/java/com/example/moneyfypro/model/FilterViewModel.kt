@@ -65,7 +65,7 @@ class FilterViewModel @Inject constructor(private val repository: ExpensesReposi
     /**
      * Get date validator
      */
-    fun dateValidator(startDate: Boolean): CalendarConstraints.DateValidator? {
+    fun dateValidator(startDate: Boolean): DateValidator? {
         if (startDate && _endDate.value != null) return DateValidatorPointBackward.before(_endDate.value!!.time)
         if (!startDate && _startDate.value != null) return CompositeDateValidator.allOf(
             listOf(
@@ -73,30 +73,6 @@ class FilterViewModel @Inject constructor(private val repository: ExpensesReposi
                 DateValidatorPointBackward.before(Date().time)
             )
         )
-        return null
-    }
-
-
-    /**
-     * Get valid start date
-     */
-    fun startDateValidator(): CalendarConstraints.DateValidator? {
-        if (_startDate.value != null) {
-            return DateValidatorPointForward.from(_startDate.value!!.time)
-        }
-
-        return null
-    }
-
-
-    /**
-     * Get valid end date
-     */
-    fun endDateValidator(): CalendarConstraints.DateValidator? {
-        if (_endDate.value != null) {
-            return DateValidatorPointBackward.before(_endDate.value!!.time)
-        }
-
         return null
     }
 
@@ -117,7 +93,6 @@ class FilterViewModel @Inject constructor(private val repository: ExpensesReposi
 
         // Other filters (depend on situation)
         if (!_keyword.value.isNullOrEmpty()) filters.add(keywordFilter())
-        println("see this ${selectedCategories.value}")
         if (!selectedCategories.value.isNullOrEmpty()) filters.add(categoryFilter())
 
         return filters

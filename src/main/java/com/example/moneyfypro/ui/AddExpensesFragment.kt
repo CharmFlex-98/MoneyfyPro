@@ -17,6 +17,7 @@ import com.example.moneyfypro.databinding.FragmentAddExpensesBinding
 import com.example.moneyfypro.model.ExpensesViewModel
 import com.example.moneyfypro.model.SettingViewModel
 import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -90,7 +91,8 @@ class AddExpensesFragment() : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            amountField.hint = "Amount  (${settingViewModel.saveCurrency.value})"
+            amountField.hint =
+                "Amount  (${settingViewModel.saveCurrency.value?.currencyCode ?: ""})"
             // load save instance
             categoryField.setText(savedInstanceState?.getString(categoryField.id.toString()))
 
@@ -121,16 +123,23 @@ class AddExpensesFragment() : DialogFragment() {
             }
             dateField.setText(args.getString(Expense.DATE_KEY))
             descriptionField.setText(args.getString(Expense.DESCRIPTION_KEY))
-            amountField.setText(Expense.toAmountFormat(args.getDouble(Expense.AMOUNT_KEY), "", currencyFormat = false))
+            amountField.setText(
+                Expense.toAmountFormat(
+                    args.getDouble(Expense.AMOUNT_KEY),
+                    "",
+                    currencyFormat = false
+                )
+            )
             expensesType.check(if (amount < 0) R.id.spending_radio_button else R.id.earning_radio_button)
         }
     }
 
     private fun openDatePickerDialog() {
         val calender = Calendar.getInstance()
+        val validator = DateValidatorPointBackward.before(Date().time)
         val constraintBuilder = CalendarConstraints.Builder().setOpenAt(
             calender.timeInMillis
-        ).build()
+        ).setValidator(validator).build()
         val picker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select Date")
             .setCalendarConstraints(constraintBuilder)

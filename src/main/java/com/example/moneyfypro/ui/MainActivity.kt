@@ -11,7 +11,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
@@ -37,15 +36,17 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickListener {
-    lateinit var navController: NavController
-    lateinit var binding: ActivityMainBinding
-    lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var drawerToggle: ActionBarDrawerToggle
     private val filterViewModel: FilterViewModel by viewModels()
     private val expensesViewModel: ExpensesViewModel by viewModels()
     private val settingViewModel: SettingViewModel by viewModels()
@@ -53,9 +54,8 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("after recreate, in activity")
         initSetting()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -153,9 +153,7 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
             sharedPreferences.currencyId(),
             sharedPreferences.defaultCurrency()
         )
-        println("see if there is any currency $currency")
         currency?.let {
-            println("should set it $currency")
             settingViewModel.setCurrency(currency)
         }
     }
@@ -391,7 +389,7 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
 
                 // If none is selected, then the others must be unselected.
                 if ((catName == "None") and isChecked) {
-                    categories().forEachIndexed() { pos, _ ->
+                    categories().forEachIndexed { pos, _ ->
                         if (cats[pos] != "None") {
                             categoryStates[pos] = false
                             listView.setItemChecked(pos, false)

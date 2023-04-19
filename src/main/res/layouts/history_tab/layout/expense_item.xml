@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:text="Date" />
+            tools:text="Date" />
 
         <View
             style="@style/divider"
@@ -109,8 +109,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableEnd="@drawable/ic_view_expense"
-                android:text="View"
-                android:textSize="12dp"
+                android:text="@string/view_text"
+                android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
