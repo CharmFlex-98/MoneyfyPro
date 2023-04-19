@@ -70,7 +70,7 @@ class FilterViewModel @Inject constructor(private val repository: ExpensesReposi
         if (!startDate && _startDate.value != null) return CompositeDateValidator.allOf(
             listOf(
                 DateValidatorPointForward.from(_startDate.value!!.time),
-                DateValidatorPointBackward.before(Date().time)
+                DateValidatorPointBackward.now()
             )
         )
         return null

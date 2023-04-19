@@ -1,12 +1,9 @@
 package com.example.moneyfypro.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.moneyfypro.R
@@ -14,6 +11,7 @@ import com.example.moneyfypro.data.Expense
 import com.example.moneyfypro.data.dateFormat
 import com.example.moneyfypro.data.toAmountFormat
 import com.example.moneyfypro.databinding.FragmentAddExpensesBinding
+import com.example.moneyfypro.model.ExpenseDetailViewModel
 import com.example.moneyfypro.model.ExpensesViewModel
 import com.example.moneyfypro.model.SettingViewModel
 import com.google.android.material.datepicker.CalendarConstraints
@@ -26,7 +24,7 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class AddExpensesFragment() : DialogFragment() {
+class AddExpensesFragment : DialogFragment() {
     private var _binding: FragmentAddExpensesBinding? = null
     private val binding: FragmentAddExpensesBinding
         get() = _binding!!
@@ -35,19 +33,17 @@ class AddExpensesFragment() : DialogFragment() {
     @ActivityRetainedScoped
     val viewModel: ExpensesViewModel by activityViewModels()
     private val settingViewModel: SettingViewModel by activityViewModels()
+    private val expenseDetailViewModel: ExpenseDetailViewModel by activityViewModels()
 
 
     companion object {
         const val TAG = "AddExpensesDialog"
-        fun instance(referencedExpense: Expense): AddExpensesFragment {
+        const val IS_EDIT_MODE = "isEditMode"
+        fun instance(isEditMode: Boolean = false): AddExpensesFragment {
             val res = AddExpensesFragment();
             val args = Bundle()
             args.apply {
-                putString(Expense.CATEGORY_KEY, referencedExpense.category)
-                putString(Expense.DESCRIPTION_KEY, referencedExpense.description)
-                putDouble(Expense.AMOUNT_KEY, referencedExpense.amount)
-                putString(Expense.DATE_KEY, Expense.dateFormat().format(referencedExpense.date))
-                putString(Expense.ID_KEY, referencedExpense.id)
+               putBoolean(IS_EDIT_MODE, isEditMode)
             }
             res.arguments = args
 
@@ -109,24 +105,20 @@ class AddExpensesFragment() : DialogFragment() {
             submitButton.setOnClickListener { onSubmit() }
         }
 
-        if (isEditMode()) loadExpenseData()
+        if (isEditMode() && expenseDetailViewModel.isValidDetails()) loadExpenseData()
     }
 
-    private fun isEditMode() = arguments != null
+    private fun isEditMode() = arguments != null && requireArguments().getBoolean(IS_EDIT_MODE)
 
     private fun loadExpenseData() {
-        val args = requireArguments()
-        val amount = args.getDouble(Expense.AMOUNT_KEY)
+        val amount = expenseDetailViewModel.amount.value!!
         binding.apply {
-            categoryField.setText(args.getString(Expense.CATEGORY_KEY))
-            args.getString(Expense.DATE_KEY)?.let {
-                dateField.setText(Expense.dateFormat().parse(it)?.toString() ?: "")
-            }
-            dateField.setText(args.getString(Expense.DATE_KEY))
-            descriptionField.setText(args.getString(Expense.DESCRIPTION_KEY))
+            categoryField.setText(expenseDetailViewModel.category.value)
+            dateField.setText(Expense.dateFormat().format(expenseDetailViewModel.date.value!!))
+            descriptionField.setText(expenseDetailViewModel.description.value)
             amountField.setText(
                 Expense.toAmountFormat(
-                    args.getDouble(Expense.AMOUNT_KEY).absoluteValue,
+                    amount.absoluteValue,
                     "",
                     currencyFormat = false
                 )
@@ -137,7 +129,7 @@ class AddExpensesFragment() : DialogFragment() {
 
     private fun openDatePickerDialog() {
         val calender = Calendar.getInstance()
-        val validator = DateValidatorPointBackward.before(Date().time)
+        val validator = DateValidatorPointBackward.now()
         val constraintBuilder = CalendarConstraints.Builder().setOpenAt(
             calender.timeInMillis
         ).setValidator(validator).build()
@@ -162,14 +154,27 @@ class AddExpensesFragment() : DialogFragment() {
             amount =
                 if (binding.expensesType.checkedRadioButtonId == binding.earningRadioButton.id) amount else -amount
             runBlocking {
-                if (isEditMode()) {
+                if (isEditMode() && expenseDetailViewModel.id.value != null) {
+                    val id = expenseDetailViewModel.id.value!!
+                    val cat = binding.categoryField.text.toString()
+                    val desc = binding.descriptionField.text.toString()
+                    val date = Expense.dateFormat().parse(binding.dateField.text.toString())!!
                     viewModel.updateExpense(
-                        id = requireArguments().getString(Expense.ID_KEY) ?: return@runBlocking,
-                        category = binding.categoryField.text.toString(),
-                        description = binding.descriptionField.text.toString(),
+                        id = id,
+                        category = cat,
+                        description = desc,
                         amount = amount,
-                        date = Expense.dateFormat().parse(binding.dateField.text.toString())!!
+                        date = date
                     )
+                    // So that when back to detail dialog page, the value there will be updated.
+                    val expense = Expense(
+                        id = id,
+                        category = cat,
+                        description = desc,
+                        date = date,
+                        amount = amount
+                    )
+                    expenseDetailViewModel.steal(expense)
                 } else {
                     viewModel.insertExpense(
                         category = binding.categoryField.text.toString(),
@@ -177,6 +182,7 @@ class AddExpensesFragment() : DialogFragment() {
                         amount = amount,
                         date = Expense.dateFormat().parse(binding.dateField.text.toString())!!
                     )
+
                 }
                 dismiss()
             }

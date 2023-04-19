@@ -1,9 +1,4 @@
 package com.example.moneyfypro.ui
-
-import android.R
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
@@ -12,16 +7,19 @@ import com.example.moneyfypro.data.Expense
 import com.example.moneyfypro.data.dateFormat
 import com.example.moneyfypro.data.toAmountFormat
 import com.example.moneyfypro.databinding.DialogExpenseDetailBinding
+import com.example.moneyfypro.model.ExpenseDetailViewModel
 import com.example.moneyfypro.model.ExpensesViewModel
-import com.example.moneyfypro.model.SettingViewModel
-import kotlin.math.exp
+
 
 
 class ExpenseDetailDialog : DialogFragment() {
     private lateinit var binding: DialogExpenseDetailBinding
     private val expenseViewModel: ExpensesViewModel by activityViewModels()
-    private val settingViewModel: SettingViewModel by activityViewModels()
+    private val expenseDetailViewModel: ExpenseDetailViewModel by activityViewModels()
 
+    companion object {
+        const val TAG = "Expense detail"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,86 +33,36 @@ class ExpenseDetailDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val mat = Resources.getSystem().displayMetrics
-//        val width = mat.widthPixels * 0.7
-//        val height = mat.heightPixels * 0.7
-//        dialog?.window?.setLayout(width.toInt(), height.toInt())
         binding.apply {
-            val args = requireArguments()
-            val id = args.getString(Expense.ID_KEY)
-
-            if (id.isNullOrEmpty()) return@apply
-
-            expenseViewModel.expensesViewState.observe(viewLifecycleOwner) { state ->
-
-                val targetExpenses = state.expensesList.filter { expense -> expense.id == id }
-                if (targetExpenses.count() != 1) return@observe
-
-                val targetExpense = targetExpenses[0]
-
-                categoryContent.text = targetExpense.category
-                amountContent.text = Expense.toAmountFormat(targetExpense.amount, settingViewModel.saveCurrency.value?.currencyCode ?: "")
-                descriptionContent.text = targetExpense.description
-                dateContent.text = Expense.dateFormat().format(targetExpense.date)
-
+            expenseDetailViewModel.apply {
+                category.observe(viewLifecycleOwner) { categoryContent.text = it }
+                amount.observe(viewLifecycleOwner) { amountContent.text = Expense.toAmountFormat(it, "", false) }
+                description.observe(viewLifecycleOwner) { descriptionContent.text = it }
+                date.observe(viewLifecycleOwner) {
+                    dateContent.text = Expense.dateFormat().format(it)
+                }
             }
 
             closeDialogButton.setOnClickListener { dismiss() }
-            editExpenseButton.setOnClickListener { editExpense(id) }
+            editExpenseButton.setOnClickListener { editExpense() }
             deleteExpenseButton.setOnClickListener {
-                deleteExpense(id)
+                deleteExpense(expenseDetailViewModel.id.value ?: "")
                 dismiss()
             }
         }
     }
 
-    private fun editExpense(expenseId: String) {
-        val expense = createExpenseInstance(expenseId)
-        if (expense != null) AddExpensesFragment.instance(expense)
+    private fun editExpense() {
+        AddExpensesFragment.instance(isEditMode = true)
             .show(requireActivity().supportFragmentManager, AddExpensesFragment.TAG)
     }
 
-    private fun createExpenseInstance(expenseId: String): Expense? {
-        val targetExpense =
-            expenseViewModel.expensesViewState.value?.expensesList?.firstOrNull { expense -> expense.id == expenseId }
-                ?: return null
-
-        val category = targetExpense.category
-        val description = targetExpense.description
-        val amount = targetExpense.amount
-        val date = targetExpense.date
-
-        return Expense(
-            id = expenseId,
-            category = category,
-            description = description,
-            amount = amount,
-            date = date
-        )
-    }
 
     private fun deleteExpense(expenseId: String) {
         expenseViewModel.expensesViewState.value?.expensesList?.firstOrNull {
             it.id == expenseId
         }?.let {
             expenseViewModel.deleteExpense(it)
-        }
-    }
-
-
-    companion object {
-        const val TAG = "Expense detail"
-        fun instance(expense: Expense): ExpenseDetailDialog {
-            val dialog = ExpenseDetailDialog()
-            val bundle = Bundle()
-            bundle.putString(Expense.ID_KEY, expense.id)
-            bundle.putString(Expense.CATEGORY_KEY, expense.category)
-            bundle.putDouble(Expense.AMOUNT_KEY, expense.amount)
-            bundle.putString(Expense.DESCRIPTION_KEY, expense.description)
-            bundle.putString(Expense.DATE_KEY, Expense.dateFormat().format(expense.date))
-
-            dialog.arguments = bundle
-            return dialog
         }
     }
 }

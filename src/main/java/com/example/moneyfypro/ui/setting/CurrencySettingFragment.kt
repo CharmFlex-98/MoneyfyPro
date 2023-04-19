@@ -64,7 +64,7 @@ class CurrencySettingFragment: DialogFragment() {
 
 
     private fun openChangeCurrencyDialog() {
-        CurrencyPickerBottomSheetDialog().show(childFragmentManager, CurrencyPickerBottomSheetDialog.TAG)
+        CurrencyPickerBottomSheetDialog().show(requireActivity().supportFragmentManager, CurrencyPickerBottomSheetDialog.TAG)
     }
 
     companion object {
