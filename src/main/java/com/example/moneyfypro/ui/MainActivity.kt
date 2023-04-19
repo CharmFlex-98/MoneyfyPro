@@ -93,6 +93,14 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
             searchFilter.apply {
                 searchText.addTextChangedListener(SearchTextWatcher(this@MainActivity))
                 searchLayout.setEndIconOnClickListener {
+                    if (searchText.text.isNullOrEmpty()) {
+                        if (binding.dateFilter.root.visibility == View.GONE) {
+                            binding.searchFilter.root.visibility = View.GONE
+                            binding.dateFilter.root.visibility = View.VISIBLE
+                        }
+                        return@setEndIconOnClickListener
+                    }
+                    
                     searchText.text?.clear()
                 }
             }
