@@ -53,9 +53,11 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
     private var exitSnackBar: Snackbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // If I put set default night mode after onCreate super, onCreate will be called again...
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         super.onCreate(savedInstanceState)
         initSetting()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
