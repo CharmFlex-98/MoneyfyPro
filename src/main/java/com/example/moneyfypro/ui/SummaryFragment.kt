@@ -96,8 +96,6 @@ class SummaryFragment : Fragment() {
      */
     private fun loadPieData(chart: PieChart, expensesRatioByCategory: Map<String, Double>) {
         val data = mutableListOf<PieEntry>()
-        println("should start loading")
-        println(expensesRatioByCategory)
         expensesRatioByCategory.forEach {
             data.add(PieEntry(it.value.toFloat(), it.key))
         }

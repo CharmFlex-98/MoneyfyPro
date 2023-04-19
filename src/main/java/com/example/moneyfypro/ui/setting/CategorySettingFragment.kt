@@ -60,7 +60,6 @@ class CategorySettingFragment : DialogFragment(), ItemOnTouchListener{
         }
 
         settingViewModel.saveCategories.observe(viewLifecycleOwner) {
-            println("after recreate, the list is ${it.toList()}")
             catAdapter.submitList(it.toList())
         }
         configureReturnCallback()

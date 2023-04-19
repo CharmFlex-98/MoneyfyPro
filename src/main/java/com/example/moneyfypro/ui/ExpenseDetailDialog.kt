@@ -97,7 +97,6 @@ class ExpenseDetailDialog : DialogFragment() {
         expenseViewModel.expensesViewState.value?.expensesList?.firstOrNull {
             it.id == expenseId
         }?.let {
-            println("yes the item will be deleted")
             expenseViewModel.deleteExpense(it)
         }
     }

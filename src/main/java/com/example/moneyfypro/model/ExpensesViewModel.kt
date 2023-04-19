@@ -26,7 +26,6 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         viewModelScope.launch {
             val newExpense = getNewExpenseEntry(category, description, amount, date)
             repository.insertExpense(newExpense)
-            println("filter is : ${expensesViewState.value?.expensesFilters}")
             expensesViewState.value = expensesViewState.value?.copy(
                 expensesList = repository.getFilteredExpenses(expensesViewState.value?.expensesFilters!!.queryGenerator().query()).sortedByDescending { it.date }
             )
@@ -34,14 +33,12 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
     }
 
     fun updateExpense(id: String, category: String, description: String, amount: Double, date: Date) {
-        println("in update")
         viewModelScope.launch {
             val updatedExpense = getUpdatedExpenseEntry(id, category, description, amount, date)
             repository.updateExpense(updatedExpense)
             expensesViewState.value = expensesViewState.value?.copy(
                 expensesList = repository.getFilteredExpenses(expensesViewState.value?.expensesFilters!!.queryGenerator().query()).sortedByDescending { it.date }
             )
-            println("after update")
         }
     }
 
@@ -112,7 +109,6 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
                 expensesList = repository.getAll(),
                 expensesFilters = null
             )
-            println("after init expenses view : ${expensesViewState.value}")
         }
     }
 
@@ -120,8 +116,6 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
      * Set filter
      */
     fun setExpensesFilter(filter: ExpensesFilter) {
-        println("set expenses filter: $filter")
-        println(expensesViewState.value)
         viewModelScope.launch {
             expensesViewState.value = ExpensesViewState(
                 expensesFilters = filter,
@@ -137,9 +131,7 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         val res = mutableMapOf<String, Double>()
         val filteredExpenses = expensesViewState.value?.expensesList ?: return res
 
-        println("$filteredExpenses")
         for (expense in filteredExpenses) {
-            println(expense.amount > 0)
             if (expense.amount > 0) continue
 
             val category = expense.category

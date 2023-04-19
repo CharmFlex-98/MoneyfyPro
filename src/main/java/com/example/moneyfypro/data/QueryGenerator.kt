@@ -17,7 +17,6 @@ abstract class QueryGenerator {
         val queryBuilderWrapper = queryBuilderWrapper()
         val query = queryBuilderWrapper.query
         val allQueries = queryStart + if (query.isNotBlank()) (" $filterKeyWord$query") else Unit
-        println("all query is $allQueries")
         return SimpleSQLiteQuery(allQueries, queryBuilderWrapper.arguments.toArray())
     }
 
@@ -38,16 +37,13 @@ abstract class QueryGenerator {
  */
 class CombinedFilterQueryGenerator(private val queryGenerators: List<QueryGenerator>) : QueryGenerator() {
     override fun queryBuilderWrapper(): QueryBuilderWrapper {
-        println(queryGenerators)
         val query = queryGenerators.foldIndexed("") { index, acc, queryGenerator ->
             if (index == 0) acc + queryGenerator.queryBuilderWrapper().query
             else acc + "AND" + queryGenerator.queryBuilderWrapper().query
         }
-        println("query is $query")
 
         val arguments = arrayListOf<Any>()
         arguments.addAll(queryGenerators.flatMap { queryGenerator -> queryGenerator.queryBuilderWrapper().arguments})
-        println("arguments are : $arguments")
 
         return QueryBuilderWrapper(query, arguments)
     }

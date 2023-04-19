@@ -93,7 +93,6 @@ class FilterViewModel @Inject constructor(private val repository: ExpensesReposi
 
         // Other filters (depend on situation)
         if (!_keyword.value.isNullOrEmpty()) filters.add(keywordFilter())
-        println("see this ${selectedCategories.value}")
         if (!selectedCategories.value.isNullOrEmpty()) filters.add(categoryFilter())
 
         return filters

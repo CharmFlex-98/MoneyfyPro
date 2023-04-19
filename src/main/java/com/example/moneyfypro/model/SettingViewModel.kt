@@ -29,7 +29,6 @@ class SettingViewModel : ViewModel() {
     fun removeCategory(category: String) {
         val cats = saveCategories.value ?: return
         cats.remove(category)
-        println("remove cats = $category")
         setCategories(cats)
     }
 
