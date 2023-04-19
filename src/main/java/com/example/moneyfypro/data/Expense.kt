@@ -46,3 +46,8 @@ fun Expense.Companion.toAmountFormat(amount: Double, currencyCode: String, curre
 
     return format.format(amount)
 }
+
+// return plain date without time zone data
+fun Expense.Companion.adjustedDateWithoutTimeZone(date: Date): Date? {
+    return dateFormat().parse(dateFormat().format(date))
+}

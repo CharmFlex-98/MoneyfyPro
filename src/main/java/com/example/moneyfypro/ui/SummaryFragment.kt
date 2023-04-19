@@ -122,6 +122,6 @@ class SummaryFragment : Fragment() {
         chart.setDrawEntryLabels(false)
         chart.setExtraOffsets(25f, 0f, 25f, 0f)
         chart.invalidate()
-        chart.animateY(1400, Easing.EaseInOutQuad)
+        chart.animateY(500, Easing.EaseInOutQuad)
     }
 }

@@ -146,14 +146,13 @@ class AddExpensesFragment() : DialogFragment() {
             .setCalendarConstraints(constraintBuilder)
             .build()
         picker.addOnPositiveButtonClickListener {
-            setDateText(it)
+            setDateText(Date(it))
         }
         picker.show(requireActivity().supportFragmentManager, "materialDatePicker")
     }
 
-    private fun setDateText(date: Long) {
-        val dateObj = Date(date)
-        binding.dateField.setText(Expense.dateFormat().format(dateObj))
+    private fun setDateText(date: Date) {
+        binding.dateField.setText(Expense.dateFormat().format(date))
     }
 
 

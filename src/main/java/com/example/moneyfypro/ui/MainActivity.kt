@@ -25,6 +25,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.moneyfypro.R
 import com.example.moneyfypro.data.Expense
+import com.example.moneyfypro.data.adjustedDateWithoutTimeZone
 import com.example.moneyfypro.data.dateFormat
 import com.example.moneyfypro.databinding.ActivityMainBinding
 import com.example.moneyfypro.model.ExpensesViewModel
@@ -255,9 +256,10 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
      */
     private fun onSelectCalender(isStartDay: Boolean) {
         // Calender constraint
+        val calender = Calendar.getInstance()
         val validator = filterViewModel.dateValidator(isStartDay)
         var calenderConstraintBuilder = CalendarConstraints.Builder().setOpenAt(
-            Calendar.getInstance().timeInMillis
+            calender.timeInMillis
         )
         if (validator != null) calenderConstraintBuilder =
             calenderConstraintBuilder.setValidator(validator)
@@ -275,10 +277,12 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
     }
 
     private fun setDateFilter(isStartDay: Boolean, date: Date) {
+        val adjustedDate = Expense.adjustedDateWithoutTimeZone(date) ?: return
+
         if (isStartDay) {
-            filterViewModel.setStartData(date)
+            filterViewModel.setStartData(adjustedDate)
         } else {
-            filterViewModel.setEndDate(date)
+            filterViewModel.setEndDate(adjustedDate)
         }
     }
 
