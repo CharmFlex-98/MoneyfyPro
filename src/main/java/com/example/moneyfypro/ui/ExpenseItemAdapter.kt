@@ -61,6 +61,13 @@ class ExpenseItemAdapter(private val activity: Activity) :
             }
         }
 
+        fun hideSeparator() {
+            binding.apply {
+                separator.visibility = View.GONE
+                space.visibility = View.GONE
+            }
+        }
+
     }
 
     override fun createViewHolder(binding: ExpenseItemBinding): ExpenseItemViewHolder {
@@ -89,6 +96,7 @@ class ExpenseItemAdapter(private val activity: Activity) :
         val format = SimpleDateFormat("yyyyMMdd", Locale.US)
 
         if (format.format(previousDate) != format.format(currentDate)) holder.showSeparator()
+        else holder.hideSeparator()
     }
 
     companion object {
