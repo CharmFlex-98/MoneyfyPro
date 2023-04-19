@@ -108,10 +108,9 @@ class ChartFragment : Fragment() {
             val dataset = getLineDataSet(currencyCode)
             dataset.lineWidth = 2f
             dataset.setDrawValues(false)
-            dataset.setDrawCircles(true)
+            dataset.setDrawCircles(false)
             dataset.mode = LineDataSet.Mode.LINEAR
             dataset.color = ContextCompat.getColor(this.context, R.color.blush)
-            dataset.circleColors = listOf(ContextCompat.getColor(this.context, R.color.amaranth_purple))
             dataGroup.add(dataset)
             data = LineData(dataGroup)
             invalidate()
