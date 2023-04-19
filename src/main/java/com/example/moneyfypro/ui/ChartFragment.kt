@@ -75,7 +75,7 @@ class ChartFragment : Fragment() {
      * Create line chart
      */
     private fun createLineChart(currencyCode: String) {
-        if (!expensesViewModel.hasExpenses()) {
+        if (!expensesViewModel.hasRecord()) {
             binding.noDataText.visibility = View.VISIBLE
             binding.lineChart.visibility = View.GONE
             return
@@ -108,9 +108,10 @@ class ChartFragment : Fragment() {
             val dataset = getLineDataSet(currencyCode)
             dataset.lineWidth = 2f
             dataset.setDrawValues(false)
-            dataset.setDrawCircles(false)
+            dataset.setDrawCircles(true)
             dataset.mode = LineDataSet.Mode.LINEAR
             dataset.color = ContextCompat.getColor(this.context, R.color.blush)
+            dataset.circleColors = listOf(ContextCompat.getColor(this.context, R.color.amaranth_purple))
             dataGroup.add(dataset)
             data = LineData(dataGroup)
             invalidate()
