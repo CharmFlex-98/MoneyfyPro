@@ -45,7 +45,7 @@ import java.util.*
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickListener {
     private lateinit var navController: NavController
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private val filterViewModel: FilterViewModel by viewModels()
     private val expensesViewModel: ExpensesViewModel by viewModels()
