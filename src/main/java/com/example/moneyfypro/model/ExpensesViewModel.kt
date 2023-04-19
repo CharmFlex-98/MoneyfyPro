@@ -85,6 +85,24 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         )
     }
 
+    fun hasExpenses(): Boolean = expensesCount() > 0
+
+    fun hasEarnings(): Boolean = earningCount() > 0
+
+    fun hasRecord(): Boolean = hasExpenses() || hasEarnings()
+
+    private fun expensesCount(): Int {
+        return expensesViewState.value?.expensesList?.filter {
+            it.amount < 0
+        }?.size ?: 0
+    }
+
+    private fun earningCount(): Int {
+        return expensesViewState.value?.expensesList?.filter {
+            it.amount >= 0
+        }?.size ?: 0
+    }
+
     /**
      * Update expenses list
      */
