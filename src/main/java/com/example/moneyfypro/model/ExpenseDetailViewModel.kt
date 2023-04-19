@@ -37,21 +37,6 @@ class ExpenseDetailViewModel: ViewModel() {
         _description.value = expenseDetail.description
     }
 
-    fun createExpenseForEdit(): Expense? {
-        if (isValidDetails()) {
-            val id = if (_id.value.isNullOrEmpty()) Date().time.toString() else _id.value!!
-            // Already made sure all of them are valid so it is safe to put !!
-            return Expense(
-                id = id,
-                category = _category.value!!,
-                description = _description.value!!,
-                amount = _amount.value!!,
-                date = _date.value!!
-            )
-        }
-
-        return null
-    }
 
     fun isValidDetails(): Boolean {
         return !(_category.value == null || _amount.value == null || _description.value == null || _date.value == null)
