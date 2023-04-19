@@ -14,8 +14,8 @@ import java.util.*
 
 @Entity
 data class Expense(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = false)
+    val id: String,
     val category: String,
     val description: String,
     val amount: Double,

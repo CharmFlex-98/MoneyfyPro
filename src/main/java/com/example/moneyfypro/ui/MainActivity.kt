@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
                         }
                         return@setEndIconOnClickListener
                     }
-                    
+
                     searchText.text?.clear()
                 }
             }

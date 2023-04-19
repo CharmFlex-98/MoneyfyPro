@@ -45,7 +45,7 @@ class AddExpensesFragment() : DialogFragment() {
                 putString(Expense.DESCRIPTION_KEY, referencedExpense.description)
                 putDouble(Expense.AMOUNT_KEY, referencedExpense.amount)
                 putString(Expense.DATE_KEY, Expense.dateFormat().format(referencedExpense.date))
-                putInt(Expense.ID_KEY, referencedExpense.id)
+                putString(Expense.ID_KEY, referencedExpense.id)
             }
             res.arguments = args
 
@@ -155,7 +155,7 @@ class AddExpensesFragment() : DialogFragment() {
             runBlocking {
                 if (isEditMode()) {
                     viewModel.updateExpense(
-                        id = requireArguments().getInt(Expense.ID_KEY),
+                        id = requireArguments().getString(Expense.ID_KEY) ?: return@runBlocking,
                         category = binding.categoryField.text.toString(),
                         description = binding.descriptionField.text.toString(),
                         amount = amount,
