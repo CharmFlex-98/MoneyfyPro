@@ -27,14 +27,35 @@ import java.text.MessageFormat.format
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ExpenseItemAdapter(private val activity: Activity) :
+class ExpenseItemAdapter(private val activity: Activity, private val onViewPressedListener: OnViewPressedListener) :
     CustomListAdapterBase<Expense, ExpenseItemBinding, ExpenseItemAdapter.ExpenseItemViewHolder>(
         DiffCallback
     ) {
 
+    companion object {
+        val DiffCallback = object : DiffUtil.ItemCallback<Expense>() {
+            override fun areItemsTheSame(oldItem: Expense, newItem: Expense): Boolean {
+                return newItem.id == oldItem.id
+
+            }
+
+            override fun areContentsTheSame(oldItem: Expense, newItem: Expense): Boolean {
+                return (newItem.description == oldItem.description &&
+                        newItem.amount == oldItem.amount &&
+                        newItem.category == oldItem.category)
+            }
+        }
+
+    }
+
+    interface OnViewPressedListener {
+        fun detailViewPressed(position: Int)
+    }
+
     class ExpenseItemViewHolder(
         binding: ExpenseItemBinding,
-        private val activity: Activity,
+        activity: Activity,
+        private val onViewPressedListener: OnViewPressedListener
     ) : CustomListItemViewHolder<Expense, ExpenseItemBinding>(binding) {
         private val sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE)
         override fun bind(data: Expense) {
@@ -46,10 +67,7 @@ class ExpenseItemAdapter(private val activity: Activity) :
                 expenseItemCategory.text = data.category
                 dateSeparator.text = SimpleDateFormat("dd/MM/yyyy (E)", Locale.US).format(data.date)
                 viewButton.setOnClickListener {
-                    ExpenseDetailDialog.instance(data).show(
-                        (activity as FragmentActivity).supportFragmentManager,
-                        ExpenseDetailDialog.TAG
-                    )
+                    onViewPressedListener.detailViewPressed(adapterPosition)
                 }
             }
         }
@@ -71,7 +89,7 @@ class ExpenseItemAdapter(private val activity: Activity) :
     }
 
     override fun createViewHolder(binding: ExpenseItemBinding): ExpenseItemViewHolder {
-        return ExpenseItemViewHolder(binding, activity)
+        return ExpenseItemViewHolder(binding, activity, onViewPressedListener)
     }
 
     override fun createBinding(
@@ -99,21 +117,7 @@ class ExpenseItemAdapter(private val activity: Activity) :
         else holder.hideSeparator()
     }
 
-    companion object {
-        val DiffCallback = object : DiffUtil.ItemCallback<Expense>() {
-            override fun areItemsTheSame(oldItem: Expense, newItem: Expense): Boolean {
-                return newItem.id == oldItem.id
 
-            }
-
-            override fun areContentsTheSame(oldItem: Expense, newItem: Expense): Boolean {
-                return (newItem.description == oldItem.description &&
-                        newItem.amount == oldItem.amount &&
-                        newItem.category == oldItem.category)
-            }
-        }
-
-    }
 
 
 }
