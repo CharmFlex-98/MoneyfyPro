@@ -26,7 +26,7 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 @AndroidEntryPoint
-class AddExpensesFragment() : DialogFragment() {
+class AddExpensesFragment : DialogFragment() {
     private var _binding: FragmentAddExpensesBinding? = null
     private val binding: FragmentAddExpensesBinding
         get() = _binding!!
@@ -137,7 +137,7 @@ class AddExpensesFragment() : DialogFragment() {
 
     private fun openDatePickerDialog() {
         val calender = Calendar.getInstance()
-        val validator = DateValidatorPointBackward.before(Date().time)
+        val validator = DateValidatorPointBackward.now()
         val constraintBuilder = CalendarConstraints.Builder().setOpenAt(
             calender.timeInMillis
         ).setValidator(validator).build()

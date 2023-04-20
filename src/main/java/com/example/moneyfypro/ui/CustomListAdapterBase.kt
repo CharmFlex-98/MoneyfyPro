@@ -12,12 +12,11 @@ abstract class CustomListAdapterBase<D, VB : ViewBinding,
         VH : CustomListAdapterBase.CustomListItemViewHolder<D, VB>>(
     diffCallback: DiffUtil.ItemCallback<D>
 ) : ListAdapter<D, VH>(diffCallback) {
-    lateinit var binding: VB
     lateinit var recyclerView: RecyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
-        binding = createBinding(inflater, parent, false)
+        val binding = createBinding(inflater, parent, false)
         return createViewHolder(binding)
     }
 

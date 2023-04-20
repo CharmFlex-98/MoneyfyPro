@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moneyfypro.databinding.FragmentHistoryBinding
@@ -19,10 +20,11 @@ import com.example.moneyfypro.ui.setting.CurrencySelection
 import com.example.moneyfypro.ui.setting.currencyId
 
 
-class HistoryFragment : Fragment() {
-    lateinit var _binding: FragmentHistoryBinding
+class HistoryFragment : Fragment(), ExpenseItemAdapter.OnViewPressedListener {
+    private lateinit var _binding: FragmentHistoryBinding
     private val _expensesViewModel: ExpensesViewModel by activityViewModels()
     private val _settingViewModel: SettingViewModel by activityViewModels()
+    private lateinit var adapter: ExpenseItemAdapter
 
 
     override fun onCreateView(
@@ -37,7 +39,7 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Create adapter for expense item list
-        val adapter = ExpenseItemAdapter(requireActivity());
+        adapter = ExpenseItemAdapter(requireActivity(), this);
         _binding.apply {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -60,5 +62,13 @@ class HistoryFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    override fun detailViewPressed(position: Int) {
+        val data = adapter.currentList[position] ?: return
+        ExpenseDetailDialog.instance(data).show(
+            requireActivity().supportFragmentManager,
+            ExpenseDetailDialog.TAG
+        )
     }
 }

@@ -108,10 +108,6 @@ class ExpenseDetailDialog : DialogFragment() {
             val dialog = ExpenseDetailDialog()
             val bundle = Bundle()
             bundle.putString(Expense.ID_KEY, expense.id)
-            bundle.putString(Expense.CATEGORY_KEY, expense.category)
-            bundle.putDouble(Expense.AMOUNT_KEY, expense.amount)
-            bundle.putString(Expense.DESCRIPTION_KEY, expense.description)
-            bundle.putString(Expense.DATE_KEY, Expense.dateFormat().format(expense.date))
 
             dialog.arguments = bundle
             return dialog
