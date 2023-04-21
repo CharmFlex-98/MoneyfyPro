@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
 
 
     private fun initSetting() {
-        val sharedPreferences = getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPreferences = getSharedPreferences("share", Context.MODE_PRIVATE) ?: return
         initCategorySetting(sharedPreferences)
         initCurrencySetting(sharedPreferences)
 
@@ -340,6 +340,12 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
             R.id.expensesHistoryFragment,
             R.id.expensesLineChartFragment
         ).contains(destinationId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Update the UI in case expenses data changed.
+        expensesViewModel.invalidate()
     }
 
 

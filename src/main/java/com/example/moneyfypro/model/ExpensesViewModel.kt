@@ -51,6 +51,14 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         }
     }
 
+    fun invalidate() {
+        viewModelScope.launch {
+            expensesViewState.value = expensesViewState.value?.copy(
+                expensesList = repository.getFilteredExpenses(expensesViewState.value?.expensesFilters!!.queryGenerator().query()).sortedByDescending { it.date }
+            )
+        }
+    }
+
     private fun getNewExpenseEntry(
         category: String,
         description: String,

@@ -10,18 +10,42 @@
         <item name="colorSecondaryVariant">@color/purple_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Text color. -->
-<!--        <item name="android:textColorPrimary">@color/black</item>-->
-<!--        <item name="android:textColorSecondary">@color/black</item>-->
-<!--        <item name="android:textColorHint">@color/black</item>-->
+        <!--        <item name="android:textColorPrimary">@color/black</item>-->
+        <!--        <item name="android:textColorSecondary">@color/black</item>-->
+        <!--        <item name="android:textColorHint">@color/black</item>-->
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
         <!-- Customize your theme here. -->
-<!--        <item name="colorShadowDark">@color/black</item>-->
-<!--        <item name="colorShadowLight">@color/white</item>-->
+        <!--        <item name="colorShadowDark">@color/black</item>-->
+        <!--        <item name="colorShadowLight">@color/white</item>-->
     </style>
 
     <style name="FragmentStyle" parent="Theme.MoneyfyPro">
         <item name="android:background">@color/background_color</item>
     </style>
+
+    <style name="Theme.MoneyfyPro.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <!-- Radius of the outer bound of widgets to make the rounded corners -->
+        <item name="appWidgetRadius">16dp</item>
+        <!--
+        Radius of the inner view's bound of widgets to make the rounded corners.
+        It needs to be 8dp or less than the value of appWidgetRadius
+        -->
+        <item name="appWidgetInnerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.MoneyfyPro.AppWidgetContainer" parent="Theme.MoneyfyPro.AppWidgetContainerParent">
+        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
+        <item name="appWidgetPadding">16dp</item>
+    </style>
+
+    <style name="Theme.MoneyfyPro.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MoneyfyPro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MoneyfyPro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

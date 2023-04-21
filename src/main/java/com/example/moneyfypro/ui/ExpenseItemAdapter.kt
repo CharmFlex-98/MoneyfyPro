@@ -57,7 +57,7 @@ class ExpenseItemAdapter(private val activity: Activity, private val onViewPress
         activity: Activity,
         private val onViewPressedListener: OnViewPressedListener
     ) : CustomListItemViewHolder<Expense, ExpenseItemBinding>(binding) {
-        private val sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE)
+        private val sharedPreferences = activity.getSharedPreferences("share", Context.MODE_PRIVATE)
         override fun bind(data: Expense) {
             binding.apply {
                 val currencyCode = sharedPreferences.getString(sharedPreferences.currencyId(), sharedPreferences.defaultCurrency()) ?: sharedPreferences.defaultCurrency()

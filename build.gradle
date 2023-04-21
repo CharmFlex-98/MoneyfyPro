@@ -39,10 +39,12 @@ android {
     sourceSets {
         main {
             res.srcDirs = [
-                    file('src\\main\\res\\layouts\\setting').listFiles(),
-                    file('src\\main\\res\\layouts').listFiles(),
-                    'src\\main\\res\\layouts',
+                    // Need to add manually the folder in order for android studio to recognize and structure it well. After that can use listFiles()
                     'src\\main\\res',
+                    'src\\main\\res\\layouts',
+                    'src\\main\\res\\layouts\\widget',
+                    file('src\\main\\res\\layouts').listFiles(),
+                    file('src\\main\\res\\layouts\\setting').listFiles(),
             ]
         }
     }

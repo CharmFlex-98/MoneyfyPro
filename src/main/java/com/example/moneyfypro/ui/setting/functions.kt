@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.moneyfypro.R
 
+
 fun SharedPreferences.setToString(data: Set<String>): String {
     val separator = ","
     return data.joinToString(separator)

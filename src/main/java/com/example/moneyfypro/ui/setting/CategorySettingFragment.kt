@@ -110,7 +110,7 @@ class CategorySettingFragment : DialogFragment(), ItemOnTouchListener{
     }
 
     private fun updateCategoryPreferences() {
-        val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        val sharedPreferences = requireActivity().getSharedPreferences("share",Context.MODE_PRIVATE)
         sharedPreferences?.let { pref ->
             val editor = pref.edit()
             val catsString = pref.setToString(settingViewModel.saveCategories.value ?: setOf())

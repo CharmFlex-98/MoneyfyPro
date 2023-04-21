@@ -54,7 +54,7 @@ class CurrencySettingFragment: DialogFragment() {
     private fun saveCurrencySetting() {
         val confirmedCurrencyCode = settingViewModel.saveCurrency.value?.currencyCode ?: ""
         settingViewModel.setCurrency(confirmedCurrencyCode)
-        val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPreferences = requireActivity().getSharedPreferences("share", Context.MODE_PRIVATE) ?: return
         sharedPreferences.let { pref ->
             val editor = pref.edit()
             editor.putString(sharedPreferences.currencyId(), confirmedCurrencyCode)
