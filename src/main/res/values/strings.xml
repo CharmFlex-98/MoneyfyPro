@@ -24,6 +24,8 @@
     <string name="currency_menu">Currency Setting</string>
     <string name="filters_text">Filter</string>
     <string name="no_data_text">No Data</string>
+    <string name="new_text">New</string>
+    <string name="add_text">Add</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -1,18 +1,63 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/Widget.MoneyfyPro.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:backgroundTint="@color/black"
+    android:alpha="0.6"
     android:theme="@style/Theme.MoneyfyPro.AppWidgetContainer">
+
+   <TextView
+       android:id="@+id/profit_amount_text"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       tools:text="10000"
+       android:gravity="center"
+       android:textStyle="bold"
+       android:layout_margin="3dp"/>
+    <ProgressBar
+        android:id="@+id/profit_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/white"
+        android:progressTint="@color/apple_green"
+        android:scaleY="3"
+        android:progress="0"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/expense_amount_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="10000"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_margin="3dp"/>
+    <ProgressBar
+        android:id="@+id/expense_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/white"
+        android:progressTint="@color/red"
+        android:progress="20"
+        android:scaleY="3"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        />
+
 
     <Button
         android:id="@+id/appwidget_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/add_text"
+        android:text="@string/add_text"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
-</RelativeLayout>
+</LinearLayout>

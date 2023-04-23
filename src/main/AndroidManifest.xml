@@ -25,7 +25,7 @@
         </activity>
 
         <receiver
-            android:name=".widget.MoneyfyProWidget"
+            android:name=".widget.MoneyfyProWidgetProvider"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -33,7 +33,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/moneyfy_pro_widget_info" />
+                android:resource="@xml/moneyfy_pro_widget_provider_info" />
         </receiver>
 
         <activity
