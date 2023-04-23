@@ -114,7 +114,8 @@
             android:text="@string/add_text"
             android:minHeight="15dp"
             android:textSize="12sp"
-            android:backgroundTint="@color/blush"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@color/black"
             android:textStyle="bold|italic" />
     </LinearLayout>
 

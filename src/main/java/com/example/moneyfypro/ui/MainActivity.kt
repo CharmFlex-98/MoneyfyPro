@@ -313,10 +313,16 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
     private fun setDateFilter(isStartDay: Boolean, date: Date) {
         val adjustedDate = Expense.adjustedDateWithoutTimeZone(date) ?: return
 
+        // let's say the date is from 2023/04/06 to 2023/04/06,
+        // it period would be 00:00 until 23:59 of that day.
         if (isStartDay) {
             filterViewModel.setStartData(adjustedDate)
         } else {
-            filterViewModel.setEndDate(adjustedDate)
+            val cal = Calendar.getInstance()
+            cal.time = adjustedDate
+            cal.add(Calendar.DATE, 1)
+            cal.add(Calendar.SECOND, -1)
+            filterViewModel.setEndDate(cal.time)
         }
     }
 

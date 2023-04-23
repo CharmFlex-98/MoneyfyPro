@@ -9,7 +9,7 @@
     <string name="amount_text">Amount</string>
     <string name="date_text">Date</string>
     <string name="spending_text">Spend</string>
-    <string name="earning_text">Profit</string>
+    <string name="earning_text">Income</string>
     <string name="submit_text">Expense</string>
     <string name="message_to_user">Sync feature\ncoming soon</string>
     <string name="search_hint">Search</string>
@@ -29,6 +29,8 @@
     <string name="day">1D</string>
     <string name="month">1M</string>
     <string name="week">1W</string>
+    <string name="widget_income_text">INCOME: %s</string>
+    <string name="widget_spend_text">SPEND: %s</string>
 
 
 

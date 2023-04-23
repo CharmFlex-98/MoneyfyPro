@@ -159,14 +159,14 @@ private fun updateAppWidget(
         val totalVal = expenseStatusData.fold(0.0) { acc, i -> acc + i }.roundToInt()
         val profitVal = expenseStatusData[0].roundToInt()
         val spendVal = expenseStatusData[1].roundToInt()
-        views.setTextViewText(R.id.profit_amount_text, "PROFIT: $profitVal ($currencyCode)")
-        views.setTextViewText(R.id.expense_amount_text, "SPEND: $spendVal ($currencyCode)")
-        views.setProgressBar(R.id.profit_bar, totalVal, expenseStatusData[0].roundToInt(), false)
-        views.setProgressBar(R.id.expense_bar, totalVal, expenseStatusData[1].roundToInt(), false)
+        views.setTextViewText(R.id.profit_amount_text, context.getString(R.string.widget_income_text, "$profitVal ($currencyCode)"))
+        views.setTextViewText(R.id.expense_amount_text, context.getString(R.string.widget_spend_text, "$spendVal ($currencyCode)"))
+        views.setProgressBar(R.id.profit_bar, totalVal, profitVal, false)
+        views.setProgressBar(R.id.expense_bar, totalVal, spendVal, false)
     }
 
     // Construct the period selection, highlight the selection
-    val green = ContextCompat.getColor(context, R.color.apple_green)
+    val green = ContextCompat.getColor(context, R.color.teal_700)
     val white = ContextCompat.getColor(context, R.color.white)
     views.setTextColor(
         R.id.day_selection,
