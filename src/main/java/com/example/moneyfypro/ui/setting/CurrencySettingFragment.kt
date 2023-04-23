@@ -13,6 +13,7 @@ import com.example.moneyfypro.databinding.FragmentCurrencySettingBinding
 import com.example.moneyfypro.model.SettingViewModel
 import com.example.moneyfypro.utils.CurrencyPreferenceManager
 import com.example.moneyfypro.utils.ExpensesPreferencesManager
+import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
 
 
 class CurrencySettingFragment : DialogFragment() {
@@ -56,10 +57,7 @@ class CurrencySettingFragment : DialogFragment() {
     private fun saveCurrencySetting() {
         val confirmedCurrencyCode = settingViewModel.saveCurrency.value?.currencyCode ?: ""
         settingViewModel.setCurrency(confirmedCurrencyCode)
-        val sharedPreferences = requireActivity().getSharedPreferences(
-            ExpensesPreferencesManager.KEY,
-            Context.MODE_PRIVATE
-        )
+        val sharedPreferences = expensesSharedPreferencesInstance(requireContext())
         val manager = CurrencyPreferenceManager(sharedPreferences)
         manager.editValue(confirmedCurrencyCode)
     }

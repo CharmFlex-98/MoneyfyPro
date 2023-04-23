@@ -21,6 +21,7 @@ import com.example.moneyfypro.data.toAmountFormat
 import com.example.moneyfypro.databinding.ExpenseItemBinding
 import com.example.moneyfypro.ui.setting.currencyId
 import com.example.moneyfypro.ui.setting.defaultCurrency
+import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
 import java.lang.String.format
 import java.text.DateFormat
 import java.text.MessageFormat.format
@@ -57,7 +58,7 @@ class ExpenseItemAdapter(private val activity: Activity, private val onViewPress
         activity: Activity,
         private val onViewPressedListener: OnViewPressedListener
     ) : CustomListItemViewHolder<Expense, ExpenseItemBinding>(binding) {
-        private val sharedPreferences = activity.getSharedPreferences("share", Context.MODE_PRIVATE)
+        private val sharedPreferences = expensesSharedPreferencesInstance(activity)
         override fun bind(data: Expense) {
             binding.apply {
                 val currencyCode = sharedPreferences.getString(sharedPreferences.currencyId(), sharedPreferences.defaultCurrency()) ?: sharedPreferences.defaultCurrency()

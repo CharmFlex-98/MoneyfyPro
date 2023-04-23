@@ -23,6 +23,8 @@ import com.example.moneyfypro.ui.setting.categoryId
 import com.example.moneyfypro.ui.setting.defaultCategories
 import com.example.moneyfypro.ui.setting.setToString
 import com.example.moneyfypro.ui.setting.stringToSet
+import com.example.moneyfypro.utils.CategoryPreferenceManager
+import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
 import com.example.moneyfypro.utils.getPeriodicTotalExpensesData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -48,12 +50,10 @@ class AddNewExpenseActivity : AppCompatActivity() {
 
     private fun setupBinding() {
         binding.apply {
-            val sharedPreferences = getSharedPreferences("share", Context.MODE_PRIVATE)
-            val catsString = sharedPreferences.getString(
-                sharedPreferences.categoryId(),
-                sharedPreferences.setToString(sharedPreferences.defaultCategories(this@AddNewExpenseActivity))
-            )
-            catsString?.let {
+            val sharedPreferences = expensesSharedPreferencesInstance(this@AddNewExpenseActivity)
+            val manager = CategoryPreferenceManager(this@AddNewExpenseActivity, sharedPreferences)
+            val catsString = manager.getValue()
+            catsString.let {
                 val adapter = CategoryItemsNoFilterAdapter(
                     this@AddNewExpenseActivity,
                     R.layout.dropdown_item,

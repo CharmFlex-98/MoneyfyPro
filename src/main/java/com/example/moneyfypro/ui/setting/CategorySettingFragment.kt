@@ -19,6 +19,7 @@ import com.example.moneyfypro.databinding.FragmentCategorySettingBinding
 import com.example.moneyfypro.model.SettingViewModel
 import com.example.moneyfypro.utils.CategoryPreferenceManager
 import com.example.moneyfypro.utils.ExpensesPreferencesManager
+import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -112,7 +113,7 @@ class CategorySettingFragment : DialogFragment(), ItemOnTouchListener{
     }
 
     private fun updateCategoryPreferences() {
-        val sharedPreferences = requireActivity().getSharedPreferences(ExpensesPreferencesManager.KEY,Context.MODE_PRIVATE)
+        val sharedPreferences = expensesSharedPreferencesInstance(requireContext())
         val manager = CategoryPreferenceManager(requireContext(), sharedPreferences)
         manager.editValue(sharedPreferences.setToString(settingViewModel.saveCategories.value ?: setOf()))
     }
