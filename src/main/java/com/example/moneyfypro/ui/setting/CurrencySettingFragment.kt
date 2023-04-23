@@ -11,9 +11,12 @@ import androidx.fragment.app.activityViewModels
 import com.example.moneyfypro.R
 import com.example.moneyfypro.databinding.FragmentCurrencySettingBinding
 import com.example.moneyfypro.model.SettingViewModel
+import com.example.moneyfypro.utils.CurrencyPreferenceManager
+import com.example.moneyfypro.utils.ExpensesPreferencesManager
+import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
 
 
-class CurrencySettingFragment: DialogFragment() {
+class CurrencySettingFragment : DialogFragment() {
     private val settingViewModel: SettingViewModel by activityViewModels()
     private lateinit var binding: FragmentCurrencySettingBinding
 
@@ -54,17 +57,17 @@ class CurrencySettingFragment: DialogFragment() {
     private fun saveCurrencySetting() {
         val confirmedCurrencyCode = settingViewModel.saveCurrency.value?.currencyCode ?: ""
         settingViewModel.setCurrency(confirmedCurrencyCode)
-        val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
-        sharedPreferences.let { pref ->
-            val editor = pref.edit()
-            editor.putString(sharedPreferences.currencyId(), confirmedCurrencyCode)
-            editor.apply()
-        }
+        val sharedPreferences = expensesSharedPreferencesInstance(requireContext())
+        val manager = CurrencyPreferenceManager(sharedPreferences)
+        manager.editValue(confirmedCurrencyCode)
     }
 
 
     private fun openChangeCurrencyDialog() {
-        CurrencyPickerBottomSheetDialog().show(childFragmentManager, CurrencyPickerBottomSheetDialog.TAG)
+        CurrencyPickerBottomSheetDialog().show(
+            childFragmentManager,
+            CurrencyPickerBottomSheetDialog.TAG
+        )
     }
 
     companion object {

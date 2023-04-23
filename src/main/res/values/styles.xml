@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    Divider-->
+    <!--    Divider-->
     <style name="divider">
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:background">@color/black</item>
     </style>
 
-<!--    Expense detail dialog title style-->
+    <!--    Expense detail dialog title style-->
     <style name="detail_dialog_title_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -20,7 +20,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-<!--    Expense detail dialog content style-->
+    <!--    Expense detail dialog content style-->
     <style name="detail_dialog_content_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -31,10 +31,37 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-<!--    Bottom sheet dialog style-->
+    <!--    Bottom sheet dialog style-->
     <style name="bottom_sheet_dialog_style" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="Widget.MoneyfyPro.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+    </style>
+
+    <style name="Widget.MoneyfyPro.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+<!--    Mini expense adder dialog style-->
+    <style name="mini_dialog_style" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
+
+    <style name="widget_period_item_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+       <item name="android:padding">2dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+
     </style>
 </resources>

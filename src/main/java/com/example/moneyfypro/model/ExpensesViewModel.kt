@@ -3,11 +3,14 @@ package com.example.moneyfypro.model
 import androidx.lifecycle.*
 import com.example.moneyfypro.data.Expense
 import com.example.moneyfypro.data.ExpensesRepository
+import com.example.moneyfypro.utils.DateFilter
 import com.example.moneyfypro.utils.ExpensesFilter
+import com.example.moneyfypro.utils.getPeriodicTotalExpensesData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 /**
  * Hilt dagger will auto inject the repository object needed.
@@ -17,9 +20,13 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
     ViewModel() {
     val expensesViewState = MutableLiveData<ExpensesViewState>()
 
-   init {
-       initExpensesView()
-   }
+    init {
+        initExpensesView()
+    }
+
+    fun getRepository(): ExpensesRepository {
+        return repository
+    }
 
 
     fun insertExpense(category: String, description: String, amount: Double, date: Date) {
@@ -27,17 +34,27 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
             val newExpense = getNewExpenseEntry(category, description, amount, date)
             repository.insertExpense(newExpense)
             expensesViewState.value = expensesViewState.value?.copy(
-                expensesList = repository.getFilteredExpenses(expensesViewState.value?.expensesFilters!!.queryGenerator().query()).sortedByDescending { it.date }
+                expensesList = repository.getFilteredExpenses(
+                    expensesViewState.value?.expensesFilters!!.queryGenerator().query()
+                ).sortedByDescending { it.date }
             )
         }
     }
 
-    fun updateExpense(id: String, category: String, description: String, amount: Double, date: Date) {
+    fun updateExpense(
+        id: String,
+        category: String,
+        description: String,
+        amount: Double,
+        date: Date
+    ) {
         viewModelScope.launch {
             val updatedExpense = getUpdatedExpenseEntry(id, category, description, amount, date)
             repository.updateExpense(updatedExpense)
             expensesViewState.value = expensesViewState.value?.copy(
-                expensesList = repository.getFilteredExpenses(expensesViewState.value?.expensesFilters!!.queryGenerator().query()).sortedByDescending { it.date }
+                expensesList = repository.getFilteredExpenses(
+                    expensesViewState.value?.expensesFilters!!.queryGenerator().query()
+                ).sortedByDescending { it.date }
             )
         }
     }
@@ -46,7 +63,19 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         viewModelScope.launch {
             repository.deleteExpense(expense)
             expensesViewState.value = expensesViewState.value?.copy(
-                expensesList = repository.getFilteredExpenses(expensesViewState.value?.expensesFilters!!.queryGenerator().query()).sortedByDescending { it.date }
+                expensesList = repository.getFilteredExpenses(
+                    expensesViewState.value?.expensesFilters!!.queryGenerator().query()
+                ).sortedByDescending { it.date }
+            )
+        }
+    }
+
+    fun invalidate() {
+        viewModelScope.launch {
+            expensesViewState.value = expensesViewState.value?.copy(
+                expensesList = repository.getFilteredExpenses(
+                    expensesViewState.value?.expensesFilters!!.queryGenerator().query()
+                ).sortedByDescending { it.date }
             )
         }
     }
@@ -119,7 +148,8 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
         viewModelScope.launch {
             expensesViewState.value = ExpensesViewState(
                 expensesFilters = filter,
-                expensesList = repository.getFilteredExpenses(filter.queryGenerator().query()).sortedByDescending { it.date }
+                expensesList = repository.getFilteredExpenses(filter.queryGenerator().query())
+                    .sortedByDescending { it.date }
             )
         }
     }
@@ -144,24 +174,24 @@ class ExpensesViewModel @Inject constructor(private val repository: ExpensesRepo
 
 
     /**
-     * Get total amount
+     * Get filtered total expense
      */
-    fun totalSpending(): Double {
+    fun filteredTotalSpending(): Double {
         val expensesList = expensesViewState.value?.expensesList
         val filteredList = expensesList?.filter { expense -> expense.amount < 0 }
-        val res = filteredList?.fold(0.0) { acc, i -> acc + i.amount} ?: return 0.0
+        val res = filteredList?.fold(0.0) { acc, i -> acc + i.amount } ?: return 0.0
 
         return if (res == 0.0) res else -res
     }
 
-
+  
     /**
-     * GEt total earning
+     * Get filtered total earning
      */
-    fun totalEarning(): Double {
+    fun filteredTotalEarning(): Double {
         val expensesList = expensesViewState.value?.expensesList
         val filteredList = expensesList?.filter { expense -> expense.amount > 0 }
-        return filteredList?.fold(0.0) { acc, i -> acc + i.amount} ?: 0.0
+        return filteredList?.fold(0.0) { acc, i -> acc + i.amount } ?: 0.0
     }
 
 

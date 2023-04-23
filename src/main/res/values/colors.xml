@@ -27,7 +27,7 @@
     <color name="apple_green">#7FB800</color>
     <color name="blush">#D34F73</color>
     <color name="amaranth_purple">#A93F55</color>
-    
+
     // Palette color 18 colors
     <array name="palette_colors">
         <item name="palette_maroon">#800000</item>
@@ -49,5 +49,9 @@
         <item name="palette_mint">#aaffc3</item>
         <item name="palette_lavender">#dcbeef</item>
     </array>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
 
 </resources>

@@ -10,20 +10,15 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.viewbinding.ViewBinding
+
 import com.example.moneyfypro.data.Expense
-import com.example.moneyfypro.data.dateFormat
+
 import com.example.moneyfypro.data.toAmountFormat
 import com.example.moneyfypro.databinding.ExpenseItemBinding
-import com.example.moneyfypro.ui.setting.currencyId
-import com.example.moneyfypro.ui.setting.defaultCurrency
-import java.lang.String.format
-import java.text.DateFormat
-import java.text.MessageFormat.format
+import com.example.moneyfypro.utils.CurrencyPreferenceManager
+import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
+
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,6 +43,7 @@ class ExpenseItemAdapter(private val activity: Activity, private val onViewPress
 
     }
 
+
     interface OnViewPressedListener {
         fun detailViewPressed(position: Int)
     }
@@ -57,10 +53,11 @@ class ExpenseItemAdapter(private val activity: Activity, private val onViewPress
         activity: Activity,
         private val onViewPressedListener: OnViewPressedListener
     ) : CustomListItemViewHolder<Expense, ExpenseItemBinding>(binding) {
-        private val sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE)
+        private val sharedPreferences = expensesSharedPreferencesInstance(activity)
         override fun bind(data: Expense) {
+            val manager = CurrencyPreferenceManager(sharedPreferences)
             binding.apply {
-                val currencyCode = sharedPreferences.getString(sharedPreferences.currencyId(), sharedPreferences.defaultCurrency()) ?: sharedPreferences.defaultCurrency()
+                val currencyCode = manager.getValue()
                 expenseItemAmount.text = Expense.toAmountFormat(data.amount, currencyCode)
                 expenseItemCategory.text = data.category
                 expenseItemDescription.text = data.description

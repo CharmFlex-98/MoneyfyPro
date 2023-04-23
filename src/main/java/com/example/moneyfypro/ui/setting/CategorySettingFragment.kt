@@ -17,6 +17,10 @@ import com.example.moneyfypro.R
 import com.example.moneyfypro.databinding.AddCategoryDialogBinding
 import com.example.moneyfypro.databinding.FragmentCategorySettingBinding
 import com.example.moneyfypro.model.SettingViewModel
+import com.example.moneyfypro.utils.CategoryPreferenceManager
+import com.example.moneyfypro.utils.ExpensesPreferencesManager
+import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
+import com.example.moneyfypro.utils.setToString
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -110,13 +114,9 @@ class CategorySettingFragment : DialogFragment(), ItemOnTouchListener{
     }
 
     private fun updateCategoryPreferences() {
-        val sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
-        sharedPreferences?.let { pref ->
-            val editor = pref.edit()
-            val catsString = pref.setToString(settingViewModel.saveCategories.value ?: setOf())
-            editor.putString(sharedPreferences.categoryId(), catsString)
-            editor.apply()
-        }
+        val sharedPreferences = expensesSharedPreferencesInstance(requireContext())
+        val manager = CategoryPreferenceManager(requireContext(), sharedPreferences)
+        manager.editValue(settingViewModel.saveCategories.value?.setToString() ?: "")
     }
 
 

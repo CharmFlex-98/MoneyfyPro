@@ -12,7 +12,6 @@ import com.example.moneyfypro.data.Expense
 import com.example.moneyfypro.data.toAmountFormat
 import com.example.moneyfypro.databinding.FragmentChartBinding
 import com.example.moneyfypro.model.ExpensesViewModel
-import com.example.moneyfypro.model.ExpensesViewState
 import com.example.moneyfypro.model.SettingViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
@@ -21,12 +20,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import java.text.SimpleDateFormat
 import java.util.*
@@ -63,9 +57,9 @@ class ChartFragment : Fragment() {
         val currencyCode = settingViewModel.saveCurrency.value?.currencyCode ?: ""
         binding.apply {
             earningValue.text =
-                Expense.toAmountFormat(expensesViewModel.totalEarning(), currencyCode)
+                Expense.toAmountFormat(expensesViewModel.filteredTotalEarning(), currencyCode)
             spendingValue.text =
-                Expense.toAmountFormat(expensesViewModel.totalSpending(), currencyCode)
+                Expense.toAmountFormat(expensesViewModel.filteredTotalSpending(), currencyCode)
         }
         createLineChart(currencyCode)
     }

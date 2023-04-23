@@ -2,8 +2,11 @@ package com.example.moneyfypro.ui
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.DialogInterface.OnMultiChoiceClickListener
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -33,13 +36,14 @@ import com.example.moneyfypro.model.FilterViewModel
 import com.example.moneyfypro.model.SettingViewModel
 import com.example.moneyfypro.ui.custom_view.DraggableFloatingActionButton
 import com.example.moneyfypro.ui.setting.*
+import com.example.moneyfypro.utils.*
+import com.example.moneyfypro.widget.MoneyfyProWidgetProvider
+import com.example.moneyfypro.widget.updateAppWidgets
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 
@@ -48,10 +52,22 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
     private lateinit var navController: NavController
     lateinit var binding: ActivityMainBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
+
+    // ViewModel
     private val filterViewModel: FilterViewModel by viewModels()
     private val expensesViewModel: ExpensesViewModel by viewModels()
     private val settingViewModel: SettingViewModel by viewModels()
     private var exitSnackBar: Snackbar? = null
+
+    // Widget manager
+    private var _widgetManager: AppWidgetManager? = null
+    private val widgetManager: AppWidgetManager
+        get() = _widgetManager ?: AppWidgetManager.getInstance(this)
+
+    companion object {
+        const val WIDGET_PROFIT_BROADCAST = "update_profit_widget"
+        const val WIDGET_EXPENSE_BROADCAST = "update_expense_widget"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // If I put set default night mode after onCreate super, onCreate will be called again...
@@ -115,6 +131,32 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
         backPressSetup()
     }
 
+    override fun onPause() {
+        updateWidgetData()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        updateWidgetData()
+        super.onDestroy()
+    }
+
+    private fun updateWidgetData() {
+        val fromCalendar = Calendar.getInstance()
+        fromCalendar.add(Calendar.DATE, -7)
+
+        val componentName =
+            ComponentName(this@MainActivity, MoneyfyProWidgetProvider::class.java)
+        val widgetIds = widgetManager.getAppWidgetIds(componentName)
+
+        updateAppWidgets(
+            this@MainActivity,
+            widgetManager,
+            widgetIds,
+            expensesViewModel.getRepository()
+        )
+
+    }
 
 
     private fun backPressSetup() {
@@ -137,28 +179,20 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
 
 
     private fun initSetting() {
-        val sharedPreferences = getPreferences(Context.MODE_PRIVATE) ?: return
+        val sharedPreferences = expensesSharedPreferencesInstance(this)
         initCategorySetting(sharedPreferences)
         initCurrencySetting(sharedPreferences)
 
     }
 
     private fun initCategorySetting(sharedPreferences: SharedPreferences) {
-        val catsString = sharedPreferences.getString(
-            sharedPreferences.categoryId(),
-            sharedPreferences.setToString(sharedPreferences.defaultCategories(this))
-        )
-        catsString?.let { settingViewModel.setCategories(sharedPreferences.stringToSet(catsString)) }
+        val manager = CategoryPreferenceManager(this, sharedPreferences)
+        settingViewModel.setCategories(manager.getValue().stringToSet())
     }
 
     private fun initCurrencySetting(sharedPreferences: SharedPreferences) {
-        val currency = sharedPreferences.getString(
-            sharedPreferences.currencyId(),
-            sharedPreferences.defaultCurrency()
-        )
-        currency?.let {
-            settingViewModel.setCurrency(currency)
-        }
+        val manager = CurrencyPreferenceManager(sharedPreferences)
+        settingViewModel.setCurrency(manager.getValue())
     }
 
     private fun setDrawer() {
@@ -279,10 +313,16 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
     private fun setDateFilter(isStartDay: Boolean, date: Date) {
         val adjustedDate = Expense.adjustedDateWithoutTimeZone(date) ?: return
 
+        // let's say the date is from 2023/04/06 to 2023/04/06,
+        // it period would be 00:00 until 23:59 of that day.
         if (isStartDay) {
             filterViewModel.setStartData(adjustedDate)
         } else {
-            filterViewModel.setEndDate(adjustedDate)
+            val cal = Calendar.getInstance()
+            cal.time = adjustedDate
+            cal.add(Calendar.DATE, 1)
+            cal.add(Calendar.SECOND, -1)
+            filterViewModel.setEndDate(cal.time)
         }
     }
 
@@ -340,6 +380,12 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
             R.id.expensesHistoryFragment,
             R.id.expensesLineChartFragment
         ).contains(destinationId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Update the UI in case expenses data changed.
+        expensesViewModel.invalidate()
     }
 
 

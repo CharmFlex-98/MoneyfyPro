@@ -17,7 +17,6 @@ import com.example.moneyfypro.model.ExpensesViewModel
 import com.example.moneyfypro.model.FilterViewModel
 import com.example.moneyfypro.model.SettingViewModel
 import com.example.moneyfypro.ui.setting.CurrencySelection
-import com.example.moneyfypro.ui.setting.currencyId
 
 
 class HistoryFragment : Fragment(), ExpenseItemAdapter.OnViewPressedListener {
