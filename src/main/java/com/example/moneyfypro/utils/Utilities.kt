@@ -11,6 +11,7 @@ import kotlin.math.absoluteValue
 
 suspend fun getPeriodicTotalExpensesData(repository: ExpensesRepository, from: Date, to: Date): List<Double> {
     return withContext(Dispatchers.IO) {
+        println("$from  $to")
         val expenses = repository.getFilteredExpenses(DateFilter(from, to).queryGenerator().query())
 
         if (expenses.isEmpty()) return@withContext listOf(0.0, 0.0)
@@ -28,4 +29,13 @@ suspend fun getPeriodicTotalExpensesData(repository: ExpensesRepository, from: D
 
 fun expensesSharedPreferencesInstance(context: Context): SharedPreferences {
     return context.getSharedPreferences(ExpensesPreferencesManager.KEY, Context.MODE_PRIVATE)
+}
+
+fun Set<String>.setToString(): String {
+    val separator = ","
+    return joinToString(separator)
+}
+
+fun String.stringToSet(): Set<String> {
+    return split(",").toSet()
 }

@@ -19,13 +19,9 @@ import com.example.moneyfypro.data.ExpensesRepository
 import com.example.moneyfypro.data.adjustedDateWithoutTimeZone
 import com.example.moneyfypro.databinding.AddExpenseMiniBinding
 import com.example.moneyfypro.ui.CategoryItemsNoFilterAdapter
-import com.example.moneyfypro.ui.setting.categoryId
-import com.example.moneyfypro.ui.setting.defaultCategories
-import com.example.moneyfypro.ui.setting.setToString
-import com.example.moneyfypro.ui.setting.stringToSet
 import com.example.moneyfypro.utils.CategoryPreferenceManager
 import com.example.moneyfypro.utils.expensesSharedPreferencesInstance
-import com.example.moneyfypro.utils.getPeriodicTotalExpensesData
+import com.example.moneyfypro.utils.stringToSet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
@@ -57,7 +53,7 @@ class AddNewExpenseActivity : AppCompatActivity() {
                 val adapter = CategoryItemsNoFilterAdapter(
                     this@AddNewExpenseActivity,
                     R.layout.dropdown_item,
-                    sharedPreferences.stringToSet(it).toTypedArray()
+                    it.stringToSet().toTypedArray()
                 )
                 categoryField.setAdapter(adapter)
             }

@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
 
     private fun initCategorySetting(sharedPreferences: SharedPreferences) {
         val manager = CategoryPreferenceManager(this, sharedPreferences)
-        settingViewModel.setCategories(sharedPreferences.stringToSet(manager.getValue()))
+        settingViewModel.setCategories(manager.getValue().stringToSet())
     }
 
     private fun initCurrencySetting(sharedPreferences: SharedPreferences) {

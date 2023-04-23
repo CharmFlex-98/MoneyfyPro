@@ -26,6 +26,10 @@
     <string name="no_data_text">No Data</string>
     <string name="new_text">New</string>
     <string name="add_text">Add</string>
+    <string name="day">1D</string>
+    <string name="month">1M</string>
+    <string name="week">1W</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

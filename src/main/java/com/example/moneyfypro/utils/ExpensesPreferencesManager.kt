@@ -54,12 +54,16 @@ abstract class IntPreferencesManager(sharedPreferences: SharedPreferences): Expe
 
 class WidgetPeriodPreferenceManager(sharedPreferences: SharedPreferences): IntPreferencesManager(sharedPreferences) {
 
+    companion object {
+        const val INTENT_EXTRA_KEY = "intent extra widget"
+    }
+
     enum class WidgetPeriod {
         DAY, WEEK, MONTH
     }
 
     override fun preferenceKey(): String {
-        return "widget_period"
+        return "widget_period_setting"
     }
 
     override fun defaultValue(): Int {
