@@ -36,7 +36,7 @@ import com.example.moneyfypro.model.FilterViewModel
 import com.example.moneyfypro.model.SettingViewModel
 import com.example.moneyfypro.ui.custom_view.DraggableFloatingActionButton
 import com.example.moneyfypro.ui.setting.*
-import com.example.moneyfypro.utils.getPeriodicTotalExpensesData
+import com.example.moneyfypro.utils.*
 import com.example.moneyfypro.widget.MoneyfyProWidgetProvider
 import com.example.moneyfypro.widget.updateAppWidgets
 import com.google.android.material.datepicker.CalendarConstraints
@@ -144,20 +144,18 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
     private fun updateWidgetData() {
         val fromCalendar = Calendar.getInstance()
         fromCalendar.add(Calendar.DATE, -7)
-        lifecycleScope.launch(Dispatchers.Default) {
-            val expensesData = async {
-                getPeriodicTotalExpensesData(
-                    expensesViewModel.getRepository(),
-                    fromCalendar.time,
-                    Date()
-                )
-            }
-            val componentName =
-                ComponentName(this@MainActivity, MoneyfyProWidgetProvider::class.java)
-            val widgetIds = widgetManager.getAppWidgetIds(componentName)
 
-            updateAppWidgets(this@MainActivity, widgetManager, widgetIds, expensesViewModel.getRepository())
-        }
+        val componentName =
+            ComponentName(this@MainActivity, MoneyfyProWidgetProvider::class.java)
+        val widgetIds = widgetManager.getAppWidgetIds(componentName)
+
+        updateAppWidgets(
+            this@MainActivity,
+            widgetManager,
+            widgetIds,
+            expensesViewModel.getRepository()
+        )
+
     }
 
 
@@ -181,28 +179,20 @@ class MainActivity : AppCompatActivity(), DraggableFloatingActionButton.OnClickL
 
 
     private fun initSetting() {
-        val sharedPreferences = getSharedPreferences("share", Context.MODE_PRIVATE) ?: return
+        val sharedPreferences = expensesSharedPreferencesInstance(this)
         initCategorySetting(sharedPreferences)
         initCurrencySetting(sharedPreferences)
 
     }
 
     private fun initCategorySetting(sharedPreferences: SharedPreferences) {
-        val catsString = sharedPreferences.getString(
-            sharedPreferences.categoryId(),
-            sharedPreferences.setToString(sharedPreferences.defaultCategories(this))
-        )
-        catsString?.let { settingViewModel.setCategories(sharedPreferences.stringToSet(catsString)) }
+        val manager = CategoryPreferenceManager(this, sharedPreferences)
+        settingViewModel.setCategories(sharedPreferences.stringToSet(manager.getValue()))
     }
 
     private fun initCurrencySetting(sharedPreferences: SharedPreferences) {
-        val currency = sharedPreferences.getString(
-            sharedPreferences.currencyId(),
-            sharedPreferences.defaultCurrency()
-        )
-        currency?.let {
-            settingViewModel.setCurrency(currency)
-        }
+        val manager = CurrencyPreferenceManager(sharedPreferences)
+        settingViewModel.setCurrency(manager.getValue())
     }
 
     private fun setDrawer() {

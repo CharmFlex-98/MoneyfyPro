@@ -1,6 +1,8 @@
 package com.example.moneyfypro.utils
 
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.example.moneyfypro.data.ExpensesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,4 +24,8 @@ suspend fun getPeriodicTotalExpensesData(repository: ExpensesRepository, from: D
 
         return@withContext res
     }
+}
+
+fun expensesSharedPreferencesInstance(context: Context): SharedPreferences {
+    return context.getSharedPreferences(ExpensesPreferencesManager.KEY, Context.MODE_PRIVATE)
 }

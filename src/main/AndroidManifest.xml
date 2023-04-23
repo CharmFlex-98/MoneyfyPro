@@ -18,6 +18,7 @@
             android:exported="false"
             android:label="New Expense"
             android:theme="@style/mini_dialog_style"
+            android:taskAffinity=""
             android:launchMode="singleInstance">
             <meta-data
                 android:name="android.app.lib_name"
